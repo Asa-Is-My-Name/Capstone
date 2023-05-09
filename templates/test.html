@@ -1,20 +1,38 @@
 <!doctype html>
 <html>
 <head>
-  <title>SUS 101 Midterm/Final Study Site</title>
-  <h1>SUS 101 Midterm/Final Study Site</h1>
-  <h2>Practice Test!</h2>
+
+  <!-- hide image until hint button is clicked -->
+  <style>
+    #image {display: none;}
+  </style>
+
+  <title>SUS 103 Midterm/Final Study Site</title>
+  <h1>Introduction to Climate Change</h1>
+  <h2>Practice Quiz!</h2>
 </head>
 <body>
-  <p>{{question}}<p>
-    <p></p>
-    <form action='/result' method='POST'>
-        {% for choice in choices%}
-            <input type="radio" name="options" id='{{choice}}' value='{{choice}}' required/> {{ choice }}<br>
-        {% endfor %}
-    
-      <input type="submit" value="submit" />
-    </form>
-      <p></p>
+  <p>{{question}}</p>
+  <form action='/result' method='POST'>
+      {% for choice in choices%}
+          <input type="radio" name="options" id='{{choice}}' value='{{choice}}' required/> {{ choice }}<br>
+      {% endfor %}
+    <br>
+    <input type="submit" value="submit" />
+  </form>
+  <br>
+  
+  <!-- display image hints -->
+  {% for hint in hints %}
+    <button type="button" onclick="show()" id="btnID">Show hint</button>
+    <img id="image" src="/static/{{hint}}" alt="image hint for question" width = 20%>
+    <script>
+      function show() {
+        document.getElementById('image').style.display = "block";
+        document.getElementById('btnID').style.display = "none";
+      }
+    </script>
+  {% endfor %}
+
 </body>
 </html>
