@@ -2,40 +2,45 @@
 <html>
 <head>
   <title>SUS 103 Midterm/Final Study Site</title>
-  <h1>Introduction to Climate Change</h1>
+  <link rel="stylesheet" href="static/style/style.css"> 
+  
 </head>
-<body>
-  <h4>{{answer}} is {{result}}</h4>
-  <p>{{question}}<p>
-    <p></p>
-        {% for choice in choices%}
-          {% if choice[0] == real_answer[0] %}
-            &emsp;<b>{{choice}}</b><br>
-          {% else %}
-            &emsp;{{choice}}<br>
-          {% endif %}
-        {% endfor %}
-  <p><b></b></p>
-  {% if not end %}
-      <h3>Score: {{correct}} / {{qs_asked}} = {{percent}}%</h3>
-      <p><b>This quiz has a total of {{total_qs}} questions</b></p>
-      <form action ="test">
-        <input type="submit" value="Next Question"/>
+<body class="study-body">
+  {% include 'navBar.html' %}
+  <div class="study-box">
+    <h1>Introduction to Climate Change</h1>
+    <h4>{{answer}} is {{result}}</h4>
+    <p>{{question}}<p>
+      <p></p>
+          {% for choice in choices%}
+            {% if choice[0] == real_answer[0] %}
+              &emsp;<b>{{choice}}</b><br>
+            {% else %}
+              &emsp;{{choice}}<br>
+            {% endif %}
+          {% endfor %}
+    <p><b></b></p>
+    {% if not end %}
+        <h3>Score: {{correct}} / {{qs_asked}} = {{percent}}%</h3>
+        <p><b>This quiz has a total of {{total_qs}} questions</b></p>
+        <form action ="test">
+          <input type="submit" value="Next Question"/>
+        </form>
+      <br>
+      <form action ="/quiz_end">
+        <input type="submit" value="End quiz"/>
       </form>
-    <br>
-    <form action ="/quiz_end">
-      <input type="submit" value="End quiz"/>
-    </form>
-  {% else %}
-    <h3>Final Score: {{correct}} / {{qs_asked}} = {{percent}}%</h3>
-    <form action ="/quiz">
-      <input type="submit" value="Take the quiz again"/>
-    </form>
-    <br>
-    <form action ="/">
-        <input type="submit" value="Return to main menu"/>
-    </form>
-  {% endif %}
-  <br>  
+    {% else %}
+      <h3>Final Score: {{correct}} / {{qs_asked}} = {{percent}}%</h3>
+      <form action ="/quiz">
+        <input type="submit" value="Take the quiz again"/>
+      </form>
+      <br>
+      <form action ="/">
+          <input type="submit" value="Return to main menu"/>
+      </form>
+    {% endif %}
+    <br> 
+  </div>  
 </body>
 </html> 
