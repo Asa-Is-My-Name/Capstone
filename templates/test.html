@@ -4,7 +4,7 @@
 
   <!-- hide image until hint button is clicked -->
   <style>
-    #image {display: none;}
+    .image {display: none;}
   </style>
 
   <title>SUS 103 Midterm/Final Study Site</title>
@@ -25,18 +25,21 @@
       <input type="submit" value="submit" />
     </form>
     <br>
-  
-    <!-- display image hints -->
+
     {% for hint in hints %}
-      <button type="button" onclick="show()" id="btnID">Show hint</button>
-      <img id="image" src="/static/{{hint}}" alt="image hint for question" width = 20%>
-      <script>
-        function show() {
-          document.getElementById('image').style.display = "block";
-          document.getElementById('btnID').style.display = "none";
-        }
-      </script>
+      <button id="btn{{hint}}" onclick="showImage('{{hint}}')">Show hint</button>
+      <img id="{{hint}}" class="image" src="/static/{{hint}}" alt="Image" width="20%">
     {% endfor %}
+
+    <!-- display image hints -->
+    <script>
+      function showImage(imageId) {
+        var image = document.getElementById(imageId);
+        var button = document.getElementById("btn" + imageId)
+        image.style.display = "block";
+        button.style.display = "none";
+      }
+    </script>
   </div>  
 </body>
 </html>
