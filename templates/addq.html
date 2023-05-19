@@ -1,0 +1,35 @@
+<!doctype html>
+<html>
+  <head>
+    <title>SUS 101 Midterm/Final Study Site</title>
+    <link rel="stylesheet" href="static/style/style.css"> 
+
+  </head>
+  <body class="admin-body">
+    {% include 'navBar.html' %}
+    <div class="admin-box"> 
+      <h1>Introduction to Climate Change</h1>
+      <h2>Add a question</h2>
+      <p>~Development in Progress~</p>
+      <form action="/add" method ="POST" autocomplete="off">
+        <label for="question">Question Text (Format: "Is the sun hot?")</label><br>
+        <input type="text" id="question" name="question" size="100" required><br><br>
+
+        <label for="choices">Choices Text (Format: "choice1,choice2,choice3")</label><br>
+        <input type="text" id="choices" name="choices" size="100" required><br><br>
+
+        <label for="answer">Answer (Format: "A" [One character only, true or false == T or F])</label><br>
+        <input type="text" id="answer" name="answer" maxlength="1" required><br><br>
+
+        <label for="week">Week (Format: "week1", "week2", "midterm", "final", etc.)</label><br>
+        <input type="text" id="week" name="week" required><br><br>
+
+        <label for="image">Hint Image File Name (Format: "file1.jpg,file2.jpg")</label><br>
+        <input type="text" id="image" name="image" size="100"><br><br>
+        
+        <input type="submit" value="Submit">
+
+      </form>
+    </div> 
+  </body>
+</html>

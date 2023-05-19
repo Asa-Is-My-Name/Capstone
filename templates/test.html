@@ -30,7 +30,7 @@
 
     {% for hint in hints %}
       <button id="btn{{hint}}" onclick="showImage('{{hint}}')">Show hint</button>
-      <img id="{{hint}}" class="image" src="/static/{{hint}}" alt="Image" width="20%">
+      <img id="{{hint}}" class="image" src="/static/img/{{hint}}" alt="Image" width="20%">
     {% endfor %}
 
     <!-- function to display image hints -->
