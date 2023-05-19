@@ -1,0 +1,24 @@
+<!doctype html>
+<html>
+<head>
+  <title>SUS 103 Midterm/Final Study Site</title>
+  <link rel="stylesheet" href="static/style/style.css"> 
+
+</head>
+<body class="game-body">
+  {% include 'navBar.html' %}
+  <div class="game-box">
+    <h1>Introduction to Climate Change</h1>
+    <p>Thanks for playing!</p>
+
+    <!-- Show final score one all images have been shown -->
+    <p>Your final score is {{score}} / {{questions}}</p>
+    <form action ="/game">
+        <input type="submit" value="Play again!"/>
+    </form>
+    <br>
+    <form action ="/">
+        <input type="submit" value="Return to main menu"/>
+    </form>
+</body>
+</html>

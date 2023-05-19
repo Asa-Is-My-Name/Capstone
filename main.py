@@ -1,5 +1,6 @@
 from flask import Flask, render_template, request, session
 from questions import questions
+from game_images import game_images
 import random
 
 app = Flask(__name__)
@@ -8,6 +9,10 @@ app = Flask(__name__)
 asked_q = []
 score = [0]
 current_q = None
+
+# Global variables for game play
+image_index = 0
+game_score = 0
 
 # This route takes the user to the homepage
 @app.route('/')
@@ -100,7 +105,52 @@ def quiz_end():
 # This route takes the user to the class game page 
 @app.route('/game')
 def class_game():
+
+    # reset score and image index to 0
+    global image_index
+    global game_score
+    image_index = 0
+    game_score = 0
+
+    # shuffle images
+    random.shuffle(game_images)
+
     return render_template('game.html')
+
+@app.route('/play', methods=["GET", "POST"])
+def play_game():
+
+    global image_index
+    global game_score
+    
+    # Use GET method to show image
+    if request.method == "GET":
+        # Exit game and show results after all images have been shown
+        if image_index == len(game_images):
+            return render_template('game_results.html', score=game_score, questions=len(game_images))
+        
+        # Otherwise show next image
+        else:
+            image_url = game_images[image_index]["image"]
+            hint = game_images[image_index]["hint"]
+            return render_template('game_play.html', image=image_url, hint=hint)
+        
+
+    # Use POST method to show result
+    if request.method == "POST":
+        # end var to control which button to show on results page (if game is over)
+        end = False
+        if request.form["category"] == game_images[image_index]["answer"]:
+            game_score += 1
+            result = "Correct!"
+        else:
+            result = "Incorrect."
+        # increment image_index after result is determined
+        image_index += 1
+        if image_index == len(game_images):
+            end = True
+        return render_template('matching_result.html', score=game_score, questions=image_index, result=result, end=end)
+
 
 # This route takes the user to the admin login page
 @app.route('/admin')
