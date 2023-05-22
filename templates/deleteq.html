@@ -1,0 +1,23 @@
+<!doctype html>
+<html>
+  <head>
+    <title>SUS 101 Midterm/Final Study Site</title>
+    <link rel="stylesheet" href="static/style/style.css"> 
+
+  </head>
+  <body class="admin-body">
+    {% include 'navBar.html' %}
+    <div class="admin-box"> 
+      <h1>Introduction to Climate Change</h1>
+      <h2>Delete a question</h2>
+      <p>~Development in Progress~</p>
+      <h3>Choose a question to delete</h3>
+      <form action="/delete" method ="POST">
+        {% for question in q_list%}
+        <input type="radio" name="question" id='{{question}}' value='{{question}}' required/>{{ question }}<br><br>
+        {% endfor %}
+        <input type="submit" value="Submit">
+      </form>
+    </div> 
+  </body>
+</html>

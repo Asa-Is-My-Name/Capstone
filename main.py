@@ -1,16 +1,18 @@
-from flask import Flask, render_template, request, session
+from flask import Flask, render_template, request, session, redirect, url_for
 from questions import questions
-from game_images import game_images
 import random
+from google.cloud import datastore
+import constants
+from game_images import game_images
 
 app = Flask(__name__)
-
+client = datastore.Client()
 #Setting variables for keeping track of the users score in solo study
 asked_q = []
 score = [0]
 current_q = None
 
-# Global variables for game play
+#Global variables for gameplay
 image_index = 0
 game_score = 0
 
@@ -20,7 +22,7 @@ def index():
     return render_template('index.html')
 
 # This route takes the user to the solo study section of the website
-@app.route('/quiz', )
+@app.route('/quiz')
 def solo_study():
     # Setting the appropriate values for keeping track of the score
     asked_q.clear()
@@ -150,13 +152,162 @@ def play_game():
         if image_index == len(game_images):
             end = True
         return render_template('matching_result.html', score=game_score, questions=image_index, result=result, end=end)
-
-
+    
 # This route takes the user to the admin login page
 @app.route('/admin')
 def admin():
+    query = client.query(kind=constants.questions)
+    results = list(query.fetch())
+    q_list = []
+    for e in results:
+        q_list.append(str(e["question"]))
+    return render_template('admin.html',q_list=q_list)
 
-    return render_template('admin.html')
+@app.route('/addq')
+def add_page():
+    return render_template('addq.html')
+
+@app.route('/add', methods=['POST'])
+def add():
+    if request.method == 'POST':
+        content = request.form
+        #parsing the form to format the data properly
+        question = content['question']
+        #choices string parsing
+        choices_str = str(content['choices'])
+        choices = []
+        choice = ''
+        counter = 0
+        for i in choices_str:
+            if i == ',':
+                choices.append(choice)
+                counter += 1
+                choice=''
+                continue
+            choice += i
+            counter += 1
+            if counter == len(choices_str):
+                choices.append(choice)
+        #answer parsing
+        answer = content['answer']
+        #week parsing
+        week = content['week']
+        #Image string parsing
+        img_str = str(content['image'])
+        images = []
+        image = ''
+        counter = 0
+        for i in img_str:
+            if i == ',':
+                images.append(image)
+                image=''
+                counter += 1
+                continue
+            image += i
+            counter += 1
+            if counter == len(img_str):
+                images.append(image)
+
+        # adding question to database based on parsed data
+        new_q = datastore.entity.Entity(key=client.key(constants.questions))
+        new_q.update({"question": question, "choices": choices,
+          "answer": answer, "week": week, "image": images} )
+        client.put(new_q)
+        return redirect(url_for('admin'))
+
+@app.route('/editq')
+def edit_page():
+    query = client.query(kind=constants.questions)
+    results = list(query.fetch())
+    q_list = []
+    for e in results:
+        q_list.append(str(e["question"]))
+    if len(q_list) == 0:
+        return redirect(url_for('admin'))
+    return render_template('editq.html', q_list=q_list)
+
+@app.route('/edit', methods=['POST'])
+def edit():
+    if request.method == 'POST':
+        query = client.query(kind=constants.questions)
+        results = list(query.fetch())
+        db_question = request.form['question_to_edit']
+        for e in results:
+
+            if str(e["question"]) == str(db_question):
+                q_key = client.key(constants.questions, int(e.key.id))
+                print(q_key)
+                q_to_edit = client.get(key=q_key)
+        content = request.form
+        #parsing the form to format the data properly
+        question = content['question']
+        #choices string parsing
+        choices_str = str(content['choices'])
+        choices = []
+        choice = ''
+        counter = 0
+        for i in choices_str:
+            if i == ',':
+                choices.append(choice)
+                counter += 1
+                choice=''
+                continue
+            choice += i
+            counter += 1
+            if counter == len(choices_str):
+                choices.append(choice)
+        #answer parsing
+        answer = content['answer']
+        #week parsing
+        week = content['week']
+        #Image string parsing
+        img_str = str(content['image'])
+        images = []
+        image = ''
+        counter = 0
+        for i in img_str:
+            if i == ',':
+                images.append(image)
+                image=''
+                counter += 1
+                continue
+            image += i
+            counter += 1
+            if counter == len(img_str):
+                images.append(image)
+
+        # adding question to database based on parsed data
+
+        q_to_edit.update({"question": question, "choices": choices,
+          "answer": answer, "week": week, "image": images} )
+        client.put(q_to_edit)
+    return redirect(url_for('admin'))
+
+@app.route('/deleteq')
+def delete_page():
+    query = client.query(kind=constants.questions)
+    results = list(query.fetch())
+    q_list = []
+    for e in results:
+        q_list.append(str(e["question"]))
+    if len(q_list) == 0:
+        return redirect(url_for('admin'))
+    return render_template('deleteq.html', q_list=q_list)
+
+@app.route('/delete', methods=["POST"])
+def delete():
+    print("here")
+    content= request.form['question']
+
+    if request.method == 'POST':
+        query = client.query(kind=constants.questions)
+        results = list(query.fetch())
+        content = request.form['question']
+        for e in results:
+            if str(e["question"]) == str(content):
+                q_key = client.key(constants.questions, int(e.key.id))
+                client.delete(q_key)
+                return redirect(url_for('admin'))
 
 # Function to keep track of users score in solo quiz
 # Code Citation: https://stackoverflow.com/questions/18516891/how-do-i-keep-track-of-score-increments-in-python
