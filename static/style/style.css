@@ -98,20 +98,24 @@ nav a:hover {
   color:#ADD8E6
 }
 
+/* Kristin skeletno additions for game */
+#game-buttons {
+  margin: 0 15px;
+}
 
+.game {
+  display: inline-block;
+  margin: 15px;
+  width: 175px;
+  height: 175px;
+  white-space: normal;
+  box-shadow: 2px 2px 4px gray;
+  font-size: 1.5em;
+  vertical-align: middle;
+}
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+#hint {
+  width: 30%;
+  text-align: center;
+  margin: 0 auto;
+}
