@@ -1,0 +1,38 @@
+<!doctype html>
+<html>
+<head>
+  <title>SUS 103 Game</title>
+  <link rel="stylesheet" href="static/style/style.css"> 
+
+  <!-- To hide hint until user clicks hint button -->
+  <style>
+    #hint {display: none;}
+  </style>
+
+</head>
+<body class="game-body">
+  {% include 'navBar.html' %}
+
+  <div class="game-box">
+    <h1>Introduction to Climate Change</h1>
+
+    <!-- display the question category buttons -->
+    {% include 'game_categories.html' %}
+
+    <!-- display image and hint button -->
+    <p>Click on the question that the image below addresses</p>
+    <img src="/static/img/game/{{image}}" alt="Game image"><br><br>
+    <button id="btn" onclick="showHint()">Show hint</button>
+    <p id="hint">{{hint}}</p>
+
+    <!-- show hint when the hint button is clicked -->
+    <script>
+        function showHint() {
+            var image = document.getElementById('hint');
+            var button = document.getElementById('btn');
+            image.style.display = "block";
+            button.style.display = "none"
+        }
+    </script>
+</body>
+</html>

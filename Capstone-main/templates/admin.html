@@ -1,0 +1,32 @@
+<!doctype html>
+<html>
+  <head>
+    <title>SUS 103 Midterm/Final Study Site</title>
+    <link rel="stylesheet" href="static/style/style.css"> 
+
+  </head>
+  <body class="admin-body">
+    {% include 'navBar.html' %}
+    <div class="admin-box"> 
+      <h1>Introduction to Climate Change</h1>
+      <h2>Admin Page</h2>
+      <p>~Development in Progress~</p>
+      <form action ="addq">
+        <input type="submit" value="Add Question"/>
+      </form>
+    <br>
+      <form action ="editq">
+        <input type="submit" value="Edit Question"/>
+      </form>
+    <br>
+      <form action ="deleteq">
+        <input type="submit" value="Delete Question"/>
+      </form>
+      <h3>Question List</h3>
+      {% for question in q_list%}
+            <p>{{question}}</p>
+        {% endfor %}
+      
+    </div> 
+  </body>
+</html>
