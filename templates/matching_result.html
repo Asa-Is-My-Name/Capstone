@@ -1,7 +1,7 @@
 <!doctype html>
 <html>
 <head>
-  <title>SUS 103 Midterm/Final Study Site</title>
+  <title>SUS 103 Game</title>
   <link rel="stylesheet" href="static/style/style.css"> 
 
 </head>
@@ -16,7 +16,7 @@
 
     <!-- Either show "Next image" or "Game over" button -->
     {% if not end %}
-    <form action ="/play", method="GET">
+    <form action ="/game", method="GET">
         <input type="submit" value="Next image"/>
     </form>
     {% else %}

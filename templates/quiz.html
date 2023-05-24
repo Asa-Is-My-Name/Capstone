@@ -1,0 +1,44 @@
+<!doctype html>
+<html>
+<head>
+  <title>SUS 103 Quiz</title>
+  <link rel="stylesheet" href="static/style/style.css"> 
+  <!-- hide image hints until button is clicked -->
+  <style>
+    .hint_image {display: none;}
+  </style>
+</head>
+
+<body class="study-body">
+  {% include 'navBar.html' %}
+  <div class="study-box">
+    <h2>Practice Quiz</h2>
+    <!-- show question and answer choices -->
+    <h3>{{ question['question'] }}</h3>
+    <form action='/quiz' method='POST'>
+        {% for choice in question['choices'] %}
+            <input type="radio" name="options" id='{{choice}}' value='{{choice}}' required/> {{ choice }}<br>
+        {% endfor %}
+      <br>
+      <input type="submit" value="Submit"/>
+    </form>
+    <br>
+
+    {% for hint in question['hints'] %}
+      <button id="btn{{hint}}" onclick="showImage('{{hint}}')">Show hint</button>
+      <img id="{{hint}}" class="hint_image" src="/static/img/quiz/{{hint}}" alt="Image" width="25%">
+    {% endfor %}
+
+    <!-- function to display image hints -->
+    <script>
+      function showImage(imageId) {
+        var image = document.getElementById(imageId);
+        var button = document.getElementById("btn" + imageId)
+        image.style.display = "flex";
+        image.style.margin = "0 auto";
+        button.style.display = "none";
+      }
+    </script>
+  </div>  
+</body>
+</html>
