@@ -15,13 +15,32 @@
 
   <div class="game-box">
     <h1>Introduction to Climate Change</h1>
+    
+    <!-- Show score -->
+    {% if result %}
+      <p>Score: {{ score }}/{{ questions }}</p>
+    {% else %}
+      <h4>Click on the question that the image below addresses</h4>
+    {% endif %}
+
+    <!-- Show result text -->
+    {% if result[0] == "i" %}
+      <p style="color: red;">{{ answer }} is {{ result }} </p>
+    {% elif result[0] == "c" %}
+      <p style="color: green;">{{ answer }} is {{ result }} </p>
+      <img src="/static/img/game/{{last}}" alt="Previous image" width="10%"><br>
+      <h4>Click on the question that the image below addresses</h4>
+    {% endif %}
 
     <!-- display the question category buttons -->
-    {% include 'game_categories.html' %}
+    <div id="game-buttons">
+      <form method="POST" action="/game">
+        {% include 'game_categories.html' %}
+      </form>
+  </div> 
 
     <!-- display image and hint button -->
-    <p>Click on the question that the image below addresses</p>
-    <img src="/static/img/game/{{image}}" alt="Game image"><br><br>
+    <img src="/static/img/game/{{image}}" alt="Game image" width="40%"><br><br>
     <button id="btn" onclick="showHint()">Show hint</button>
     <p id="hint">{{hint}}</p>
 
