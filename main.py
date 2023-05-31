@@ -1,21 +1,16 @@
 from flask import Flask, render_template, request, session, redirect, url_for
-from questions import questions
 import random
 from google.cloud import datastore
 import constants
+from questions import questions
 from game_images import game_images
+import os
 
 app = Flask(__name__)
 client = datastore.Client()
 
-
-#Global variables for quiz study
-quiz_score = 0
-q_index = 0
-
-#Global variables for game play
-image_index = 0
-game_score = 0
+# set a secret key (to use for sessions)
+app.secret_key = os.urandom(24)
 
 
 # This route takes the user to the homepage
@@ -27,29 +22,27 @@ def index():
 # This route takes the user to the study section of the website
 @app.route('/study')
 def study():
-    # reset score and question index to 0
-    global quiz_score
-    global q_index
-    quiz_score = 0
-    q_index = 0
+    # initialize quiz variables
+    session['quiz_score'] = 0
+    session['q_index'] = 0
 
     # shuffle questions each time quiz is being played
     random.shuffle(questions)
-
     return render_template('study.html')
 
 
 # This route takes the user to the quiz questions
 @app.route('/quiz', methods=['GET', 'POST'])
 def quiz():
-    # Access to global quiz variables
-    global quiz_score
-    global q_index
+    # Access to session quiz variables
+    quiz_score = session.get('quiz_score', 0)
+    q_index = session.get('q_index', 0)
 
     # Use GET method to show question
     if request.method == 'GET':    
         # Increment question index (incrementing here ensures result page matches question asked)
         q_index += 1
+        session['q_index'] = q_index
 
         # Show next question (-1 to account for indexing starting at 0)
         question = questions[q_index-1]
@@ -69,6 +62,7 @@ def quiz():
         if user_ans == questions[q_index-1]["answer"]:
             result = "correct!"
             quiz_score += 1
+            session['quiz_score'] = quiz_score
         
         # Update T/F so that full word is printed on the results page
         if user_ans == "T":
@@ -78,64 +72,107 @@ def quiz():
 
         # Retrieve question information to pass to template
         question = questions[q_index-1]
-        return render_template('question_result.html', correct = quiz_score, qs_asked = q_index, total_qs = len(questions),
-                           percent = get_percentage(), result = result, question = question, answer = user_ans, end = end)
+        return render_template('question_result.html', correct=quiz_score, qs_asked=q_index, total_qs=len(questions),
+                           percent = get_percentage(quiz_score, q_index), result=result, question=question, answer=user_ans, end=end)
 
 
 # This route takes the user to the quiz final results page (if they choose to end quiz early)
 @app.route('/quiz_end', methods=['GET'])
 def quiz_end():
-    return(render_template('quiz_end.html', correct = quiz_score, total_qs = q_index, percent = get_percentage()))
+    quiz_score = session.get('quiz_score', 0)
+    q_index = session.get('q_index', 0)
+    return(render_template('quiz_end.html', correct=quiz_score, total_qs=q_index, percent=get_percentage(quiz_score, q_index)))
 
 
-# This route takes the user to the game page 
+# This route takes the user to the game review page to see questions & answers
+@app.route('/review', methods=['GET', 'POST'])
+def game_review():
+    # Use GET method to show page for the 1st time (question categories only)
+    if request.method == "GET":
+        return(render_template('game_review.html'))
+    
+    # Use POST method to show answers for the category question that user selects
+    if request.method == "POST":
+        category = request.form["category"]
+
+        # Switch statement to display proper category question
+        match category:
+            case "question 1":
+                question = "How do we know if the globe is warming?"
+            case "question 2":
+                question = "How do we know greenhouse gases warm air?"
+            case "question 3":
+                question = "How do we know the warming is not from the sun?"
+            case "question 4":
+                question = "How do we know the CO2 is not from volcanoes?"
+            case "question 5":
+                question = "How do we know CO2 is from humans?"
+            case "question 6":
+                question = "Is climage change just natural variability?"
+            case "question 7":
+                question = "Why does it matter if temperatures are changing?"
+
+        # append images for category choice to display on page
+        images = []
+        for image in game_images:
+            if category in image['answer']:
+                images.append(image)
+        return(render_template('game_review.html', images=images, question=question))
+
+
+# This route takes the user to the game play page 
 @app.route('/play')
 def play():
-
-    # reset score and image index to 0
-    global image_index
-    global game_score
-    image_index = 0
-    game_score = 0
+    # initialize game variables
+    session['game_score'] = 0
+    session['image_index'] = 0
 
     # shuffle images
     random.shuffle(game_images)
     return render_template('game.html')
 
-@app.route('/game', methods=["GET", "POST"])
+
+@app.route('/game', methods=['GET', 'POST'])
 def play_game():
-
-    global image_index
-    global game_score
+    # Access to session game variables
+    image_index = session.get('image_index', 0)
+    game_score = session.get('game_score', 0)
     
-    # Use GET method to show image
+    # Use GET method to show first image
     if request.method == "GET":
-        # Exit game and show results after all images have been shown
-        if image_index == len(game_images):
-            return render_template('game_results.html', score=game_score, questions=len(game_images))
+        image_url = game_images[image_index]["image"]
+        hint = game_images[image_index]["hint"]
+        return render_template('game_play.html', image=image_url, hint=hint, result=False)
         
-        # Otherwise show next image
-        else:
-            image_url = game_images[image_index]["image"]
-            hint = game_images[image_index]["hint"]
-            return render_template('game_play.html', image=image_url, hint=hint)
-        
-
-    # Use POST method to show result
+    # Use POST method to show questions after 1st image (includes result text)
     if request.method == "POST":
-        # end var to control which button to show on results page (if game is over)
-        end = False
-        if request.form["category"] == game_images[image_index]["answer"]:
-            game_score += 1
-            result = "Correct!"
+        # Exit game after all images have been shown
+        if image_index == len(game_images)-1:
+            return render_template('game_results.html')
+
         else:
-            result = "Incorrect."
-        # increment image_index after result is determined
-        image_index += 1
-        if image_index == len(game_images):
-            end = True
-        return render_template('matching_result.html', score=game_score, questions=image_index, result=result, end=end)
+            result = "incorrect – try again"
+            # Increment score and image_index if answer is correct
+            user_answer = request.form["category"]
+            if user_answer in game_images[image_index]["answer"]:
+                result = "correct!"
+                # Show alternative answer for images that have more than 1 category
+                if len(game_images[image_index]["answer"]) > 1:
+                    answers = game_images[image_index]["answer"]
+                    answers.remove(user_answer)
+                    result = f"correct! Another correct category is {answers[0]}"
+                image_index += 1   
+                game_score += 1 
+                session['image_index'] = image_index
+                session['game_score'] = game_score
+
+            # Show next image (or repeat image until user answers correctly)
+            image_url = game_images[image_index]["image"]
+            last_image = game_images[image_index-1]["image"]
+            hint = game_images[image_index]["hint"]
+            return render_template('game_play.html', answer=user_answer.capitalize(), image=image_url, last=last_image, hint=hint, result=result, score=game_score, questions=len(game_images))
     
+
 # This route takes the user to the admin login page
 @app.route('/admin')
 def admin():
@@ -294,9 +331,9 @@ def delete():
 
 
 # Helper function to determine user's current quiz percentage
-def get_percentage():
-    if q_index != 0:
-        percent = quiz_score / (q_index) * 100
+def get_percentage(score, index):
+    if index != 0:
+        percent = score / (index) * 100
         return int(percent)
     else:
         return 0

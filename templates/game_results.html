@@ -8,13 +8,14 @@
 <body class="game-body">
   {% include 'navBar.html' %}
   <div class="game-box">
-    <h1>Introduction to Climate Change</h1>
-    <p>Thanks for playing!</p>
+    <p>Game over. Thanks for playing!</p>
 
-    <!-- Show final score one all images have been shown -->
-    <p>Your final score is {{score}} / {{questions}}</p>
-    <form action ="/game">
+    <form action ="/play">
         <input type="submit" value="Play again!"/>
+    </form>
+    <br>
+    <form action ="/review" method="GET">
+      <input type="submit" value="Review categories"/>
     </form>
     <br>
     <form action ="/">

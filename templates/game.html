@@ -8,6 +8,7 @@
 <body class="game-body">
   {% include 'navBar.html' %}
   <div class="game-box">
+
     <!-- Game intro page that tells how to play -->
     <h1>Game Play</h1>
     <p>Match each image shown with the question it addresses.<br>
@@ -15,6 +16,10 @@
     </p>
     <form action ="/game" method="GET">
       <input type="submit" value="Ready to play!"/>
+    </form>
+    <br>
+    <form action ="/review" method="GET">
+      <input type="submit" value="Review categories"/>
     </form>
     <br>
 
