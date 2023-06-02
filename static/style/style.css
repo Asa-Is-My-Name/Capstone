@@ -11,6 +11,33 @@
   flex-direction: column;
 }
 
+h1 {
+  text-align: center;
+}
+
+h3 {
+  text-align: center;
+}
+
+.intro {
+  text-align: left;
+  padding-left: 20%;
+  padding-right: 15%;
+}
+
+.questions { 
+  text-align: left;
+  line-height: 1.4;
+  padding-left: 20%;
+  padding-right: 20%;
+  list-style-position:inside;
+  
+}
+
+.cbtn {
+  display: inline-block;
+}
+
 .container {
   width: 80%;
   margin: 0 auto; 
@@ -30,7 +57,7 @@
   background: #073842;
   width: auto; 
   padding: 20px; 
-  margin-top: 250px;
+  margin-top: 5%;
 }
 
 .study-body {
@@ -41,8 +68,8 @@
 .study-box {
   background: #073842;
   width: auto; 
-  padding: 20px; 
-  margin-top: 250px;
+  padding: 5%; 
+  margin-top: 5%;
 }
 
 .admin-body {
@@ -53,8 +80,8 @@
 .admin-box {
   background: #073842;
   width: auto; 
-  padding: 20px; 
-  margin-top: 250px;
+  padding: 5%; 
+  margin-top: 5%;
 }
 
 .game-body {
@@ -65,12 +92,8 @@
 .game-box {
   background: #073842;
   width: auto; 
-  padding: 20px; 
-  margin-top: 250px;
-}
-
-p { 
-  line-height: 1.4;
+  padding: 5%; 
+  margin-top: 5%;
 }
 
 header {
@@ -84,7 +107,8 @@ header::after {
 }
 
 nav {
-  float: center; 
+  padding-left: 10%;
+  padding-right: 10%;
 }
 
 nav ul {
@@ -152,11 +176,13 @@ nav a:hover::before {
 }
 
 footer {
+  padding-left: 0%;
   text-align: center;
-  padding: 3px;
+  
   background-color: #05282f;
   color: white;
   margin-top: auto;
+  float: center;
 }
 
 footer > p > a {
