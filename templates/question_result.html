@@ -15,7 +15,7 @@
     <h3>{{ answer }} is {{ result }}</h3>
     <h3>{{ question['question'] }}</h3>
       {% for choice in question['choices'] %}
-      
+  
         <!-- Highlight the correct answer -->
         {% if choice[0] == question['answer'] %}
           <strong style="color: green;">&emsp; {{ choice }}</strong><br>
@@ -52,6 +52,6 @@
   <footer>
     <p>Background image from Ivan Bandura via Unsplash</p>
     <p><a href="https://unsplash.com/photos/fKFIgyxGqgg">https://unsplash.com/photos/fKFIgyxGqgg</a></p>
-  </footer>  
+  </footer>    
 </body>
 </html> 

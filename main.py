@@ -2,22 +2,21 @@ from flask import Flask, render_template, request, session, redirect, url_for
 import random
 from google.cloud import datastore
 import constants
-from questions import questions
 from game_images import game_images
 import os
 
-os.environ["GCLOUD_PROJECT"] = "capstone-384605"
 
 app = Flask(__name__)
 client = datastore.Client()
 
+
+
 # set a secret key (to use for sessions)
 app.secret_key = os.urandom(24)
-
-
 # This route takes the user to the homepage
 @app.route('/')
 def index():
+    session['admin'] = False
     return render_template('index.html')
 
 
@@ -27,21 +26,32 @@ def study():
     # initialize quiz variables
     session['quiz_score'] = 0
     session['q_index'] = 0
-
+    questions = []
+    query = client.query(kind=constants.questions)
+    results = list(query.fetch())
+    for e in results:
+        q_obj = {
+        "question": e["question"],
+        "choices": e["choices"],
+        "answer": e["answer"],
+        "hints": e["image"]
+        }
+        questions.append(q_obj)
     # shuffle questions each time quiz is being played
     random.shuffle(questions)
+    session['questions'] = questions
+    print(session.get('questions'))
     return render_template('study.html')
 
 
 # This route takes the user to the quiz questions
 @app.route('/quiz', methods=['GET', 'POST'])
 def quiz():
-    # Access to session quiz variables
     quiz_score = session.get('quiz_score', 0)
     q_index = session.get('q_index', 0)
-
+    questions = session.get('questions')  
     # Use GET method to show question
-    if request.method == 'GET':    
+    if request.method == 'GET':
         # Increment question index (incrementing here ensures result page matches question asked)
         q_index += 1
         session['q_index'] = q_index
@@ -57,11 +67,11 @@ def quiz():
         end = False
         if q_index == len(questions):
             end = True
-
+        question = questions[q_index-1]
         # Increment user's score if answer is correct (based on first char of form selection)
         user_ans = request.form.get('options')[0]
         result = "incorrect"
-        if user_ans == questions[q_index-1]["answer"]:
+        if user_ans == question["answer"]:
             result = "correct!"
             quiz_score += 1
             session['quiz_score'] = quiz_score
@@ -73,7 +83,6 @@ def quiz():
             user_ans = "False"
 
         # Retrieve question information to pass to template
-        question = questions[q_index-1]
         return render_template('question_result.html', correct=quiz_score, qs_asked=q_index, total_qs=len(questions),
                            percent = get_percentage(quiz_score, q_index), result=result, question=question, answer=user_ans, end=end)
 
@@ -84,7 +93,6 @@ def quiz_end():
     quiz_score = session.get('quiz_score', 0)
     q_index = session.get('q_index', 0)
     return(render_template('quiz_end.html', correct=quiz_score, total_qs=q_index, percent=get_percentage(quiz_score, q_index)))
-
 
 # This route takes the user to the game review page to see questions & answers
 @app.route('/review', methods=['GET', 'POST'])
@@ -173,11 +181,23 @@ def play_game():
             last_image = game_images[image_index-1]["image"]
             hint = game_images[image_index]["hint"]
             return render_template('game_play.html', answer=user_answer.capitalize(), image=image_url, last=last_image, hint=hint, result=result, score=game_score, questions=len(game_images))
-    
 
-# This route takes the user to the admin login page
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    if request.method == 'GET':
+        return render_template('login.html')
+    if request.method == 'POST':
+        password = request.form['password']
+        if password != 'jilliani$great':
+            return redirect(url_for('login'))
+        session['admin'] = True
+        return redirect(url_for('admin'))
+
+# This route takes the user to the admin page
 @app.route('/admin')
 def admin():
+    if session.get('admin') == False:
+        return redirect(url_for('login'))
     query = client.query(kind=constants.questions)
     results = list(query.fetch())
     q_list = []
@@ -195,41 +215,18 @@ def add():
         content = request.form
         #parsing the form to format the data properly
         question = content['question']
+        question.capitalize()
         #choices string parsing
         choices_str = str(content['choices'])
-        choices = []
-        choice = ''
-        counter = 0
-        for i in choices_str:
-            if i == ',':
-                choices.append(choice)
-                counter += 1
-                choice=''
-                continue
-            choice += i
-            counter += 1
-            if counter == len(choices_str):
-                choices.append(choice)
+        choices = choices_str.split(';')
         #answer parsing
         answer = content['answer']
+        answer.capitalize()
         #week parsing
         week = content['week']
         #Image string parsing
         img_str = str(content['image'])
-        images = []
-        image = ''
-        counter = 0
-        for i in img_str:
-            if i == ',':
-                images.append(image)
-                image=''
-                counter += 1
-                continue
-            image += i
-            counter += 1
-            if counter == len(img_str):
-                images.append(image)
-
+        images = img_str.split(';')
         # adding question to database based on parsed data
         new_q = datastore.entity.Entity(key=client.key(constants.questions))
         new_q.update({"question": question, "choices": choices,
@@ -246,57 +243,53 @@ def edit_page():
         q_list.append(str(e["question"]))
     if len(q_list) == 0:
         return redirect(url_for('admin'))
-    return render_template('editq.html', q_list=q_list)
+    return render_template('editq_choice.html', q_list=q_list)
+
+@app.route('/edit_choice', methods=["POST"])
+def edit_question():
+    content= request.form['question_to_edit']
+    if request.method == 'POST':
+        query = client.query(kind=constants.questions)
+        results = list(query.fetch())
+        for e in results:
+            if str(e["question"]) == str(content):
+                q_key = client.key(constants.questions, int(e.key.id))
+                question_obj = client.get(key=q_key)
+                answer = question_obj['answer']
+                choices = ';'.join(question_obj['choices'])
+                image = ';'.join(question_obj['image'])
+                id = str(e.key.id)
+                question = question_obj['question']
+                week = question_obj['week']
+                return render_template('editq_question.html', answer=answer, choices=choices,image=image,question=question,week=week,id=id)
+            
 
 @app.route('/edit', methods=['POST'])
 def edit():
     if request.method == 'POST':
+        content = request.form
         query = client.query(kind=constants.questions)
         results = list(query.fetch())
-        db_question = request.form['question_to_edit']
+        db_question = request.form['id']
         for e in results:
-
-            if str(e["question"]) == str(db_question):
+            if str(e.key.id) == str(db_question):
                 q_key = client.key(constants.questions, int(e.key.id))
-                print(q_key)
                 q_to_edit = client.get(key=q_key)
-        content = request.form
+        
         #parsing the form to format the data properly
         question = content['question']
+        question.capitalize()
         #choices string parsing
         choices_str = str(content['choices'])
-        choices = []
-        choice = ''
-        counter = 0
-        for i in choices_str:
-            if i == ',':
-                choices.append(choice)
-                counter += 1
-                choice=''
-                continue
-            choice += i
-            counter += 1
-            if counter == len(choices_str):
-                choices.append(choice)
+        choices = choices_str.split(';')
         #answer parsing
         answer = content['answer']
+        answer.capitalize()
         #week parsing
         week = content['week']
         #Image string parsing
         img_str = str(content['image'])
-        images = []
-        image = ''
-        counter = 0
-        for i in img_str:
-            if i == ',':
-                images.append(image)
-                image=''
-                counter += 1
-                continue
-            image += i
-            counter += 1
-            if counter == len(img_str):
-                images.append(image)
+        images = img_str.split(';')
 
         # adding question to database based on parsed data
 
@@ -304,6 +297,9 @@ def edit():
           "answer": answer, "week": week, "image": images} )
         client.put(q_to_edit)
     return redirect(url_for('admin'))
+
+
+
 
 @app.route('/deleteq')
 def delete_page():
@@ -318,7 +314,6 @@ def delete_page():
 
 @app.route('/delete', methods=["POST"])
 def delete():
-    print("here")
     content= request.form['question']
 
     if request.method == 'POST':
