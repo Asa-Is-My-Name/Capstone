@@ -73,7 +73,7 @@ p {
 }
 
 header {
-  background: #073842;
+  background: #05282f;
 }
 
 nav {
@@ -130,7 +130,7 @@ nav a:hover {
 footer {
   text-align: center;
   padding: 3px;
-  background-color: #073842;
+  background-color: #05282f;
   color: white;
   margin-top: auto;
 }
