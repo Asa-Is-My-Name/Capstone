@@ -6,6 +6,8 @@ from questions import questions
 from game_images import game_images
 import os
 
+os.environ["GCLOUD_PROJECT"] = "capstone-384605"
+
 app = Flask(__name__)
 client = datastore.Client()
 
