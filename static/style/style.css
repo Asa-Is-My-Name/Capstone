@@ -11,10 +11,19 @@
   flex-direction: column;
 }
 
+.container {
+  width: 80%;
+  margin: 0 auto; 
+}
+
+.logo {
+  float: left;
+  padding: 10px 0;
+}
+
 .home-body {
   background-image: url(../img/home_bg.jpg);
   background-size: cover;
-  
 }
 
 .home-box {
@@ -22,13 +31,11 @@
   width: auto; 
   padding: 20px; 
   margin-top: 250px;
-
 }
 
 .study-body {
   background-image: url(../img/study_bg.jpg);
   background-size: cover;
-  
 }
 
 .study-box {
@@ -36,13 +43,11 @@
   width: auto; 
   padding: 20px; 
   margin-top: 250px;
-
 }
 
 .admin-body {
   background-image: url(../img/admin_bg.jpg);
   background-size: cover;
-  
 }
 
 .admin-box {
@@ -50,13 +55,11 @@
   width: auto; 
   padding: 20px; 
   margin-top: 250px;
-
 }
 
 .game-body {
   background-image: url(../img/game_bg.jpg);
-  background-size: cover;
-  
+  background-size: cover; 
 }
 
 .game-box {
@@ -64,16 +67,20 @@
   width: auto; 
   padding: 20px; 
   margin-top: 250px;
-
 }
 
 p { 
   line-height: 1.4;
-
 }
 
 header {
   background: #05282f;
+}
+
+header::after {
+  content: ''; 
+  display: table;
+  clear: both; 
 }
 
 nav {
@@ -91,18 +98,35 @@ nav li {
   margin-top: 20px;
   margin-bottom: 20px;
   margin-left: 70px;
-
+  padding-top: 10px;
+  position: relative; 
 }
 
 nav ul > li > a {
   color: aliceblue;
   text-decoration: none;
-  text-transform: uppercase;
- 
+  text-transform: uppercase; 
 }
 
 nav a:hover {
   color:#ADD8E6
+}
+
+nav a::before {
+  content: '';
+  display: block;
+  height: 5px;
+  
+  background-color: #ADD8E6; 
+  position: absolute; 
+  top: 0; 
+  width: 0%;
+
+  transition: all ease-in-out 250ms;
+}
+
+nav a:hover::before {
+  width: 100%;
 }
 
 /* Kristin skeleton additions for game */
