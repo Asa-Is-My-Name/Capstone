@@ -9,19 +9,18 @@
     {% include 'navBar.html' %}
     <div class="admin-box"> 
       <h1>Introduction to Climate Change</h1>
-      <h2>Delete a question</h2>
-      <h3>Choose a question to delete</h3>
-      <form action="/delete" method ="POST">
+      <h2>Pick a question to edit</h2>
+      <form action="/edit_choice" method ="POST" autocomplete="OFF">
         {% for question in q_list%}
-        <input type="radio" name="question" id='{{question}}' value='{{question}}' required/>{{ question }}<br><br>
+        <input type="radio" name="question_to_edit" id='question_to_edit' value='{{question}}' required/>{{ question }}<br><br>
         {% endfor %}
-        <input type="submit" onclick="return confirm('Are you sure you want to delete this question?')" value="Submit">
-      </form>
-    </div> 
+        <input type="submit" value="Submit">
+  
+        </form>
+      </div> 
+    </body>
     <footer>
       <p>Background image from Ivan Bandura via Unsplash</p>
       <p><a href="https://unsplash.com/photos/PV8D2xTjdVo">https://unsplash.com/photos/PV8D2xTjdVo</a></p>
     </footer>  
-  </body>
-
-</html>
+  </html>

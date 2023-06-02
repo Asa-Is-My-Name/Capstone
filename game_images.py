@@ -78,67 +78,67 @@ game_images = [
         "answer": ["question 3"]
     },
     {
-        "image": "Picture15.png",
+        "image": "Picture14.png",
         "hint": "Sunspots change on 11 year cycles. Overall output has been decreasing since the 70s.",        
         "answer": ["question 3"]
     },
     {
-        "image": "Picture16.png",
+        "image": "Picture15.png",
         "hint": "Sunspots change on 11 year cycles. Overall output has been decreasing since the 70s.",            
         "answer": ["question 3"]
     },
     {
-        "image": "Picture17.png",
+        "image": "Picture16.png",
         "hint": "Nights are warming faster than days. There is no way for the Sun to be warming the Earth at night.",        
         "answer": ["question 3"]
     },
     {
-        "image": "Picture19.png",
+        "image": "Picture17.png",
         "hint": "The CO2 emitted from volcanoes is 2-3 orders of magnitude lower than that emitted by humans.",        
         "answer": ["question 4"]
     },
     {
-        "image": "Picture20.png",
+        "image": "Picture18.png",
         "hint": "Volcanic CO2 spikes don't show up in the CO2 record.",        
         "answer": ["question 4"]
     },
     {
-        "image": "Picture21.png",
+        "image": "Picture19.png",
         "hint": "O2 is declining which shows the use of O2 to breakdown Fossil Fuels and create CO2",        
         "answer": ["question 4"]
     },
     {
-        "image": "Picture22.png",
+        "image": "Picture20.png",
         "hint": "Timing",        
         "answer": ["question 5"]
     },
     {
-        "image": "Picture23.png",
+        "image": "Picture21.png",
         "hint": "Tree rings show Fossil Fuel signatures",        
         "answer": ["question 5"]
     },
     {
-        "image": "Picture24.png",
+        "image": "Picture22.png",
         "hint": "What factors have caused Climate Change over geologic history?",        
         "answer": ["question 6"]
     },
     {
-        "image": "Picture25.png",
+        "image": "Picture23.png",
         "hint": "What factors have caused Climate Change over the past century?",        
         "answer": ["question 6"]
     },
     {
-        "image": "Picture27.png",
+        "image": "Picture24.png",
         "hint": "Temperature and CO2 have been relatively constant over the past 10K years since the rise of the agriculture.",        
         "answer": ["question 7"]
     },
     {
-        "image": "Picture28.png",
+        "image": "Picture25.png",
         "hint": "Climate Change over the history of the Earth has resulted in mass extinctions of more than 75% of all species",        
         "answer": ["question 7"]
     },
     {
-        "image": "Picture29.png",
+        "image": "Picture26.png",
         "hint": "How can we test whether temperature models are robust and accurate?",        
         "answer": ["question 7"]
     },
