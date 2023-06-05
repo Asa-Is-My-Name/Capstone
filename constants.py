@@ -1,1 +1,2 @@
 questions = "questions"
+quizzes = "quizzes"

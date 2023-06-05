@@ -68,7 +68,7 @@ h3 {
 .study-box {
   background: #073842;
   width: auto; 
-  padding: 20px; 
+  padding: 5%; 
   margin-top: 5%;
   text-align: center;
 }
@@ -81,7 +81,7 @@ h3 {
 .admin-box {
   background: #073842;
   width: auto; 
-  padding: 20px; 
+  padding: 5%; 
   margin-top: 5%;
   margin-bottom: 5%;
 }
@@ -94,7 +94,7 @@ h3 {
 .game-box {
   background: #073842;
   width: auto; 
-  padding: 20px; 
+  padding: 5%; 
   margin-top: 5%;
   margin-bottom: 5%;
 }
@@ -163,12 +163,12 @@ nav a:hover::before {
 
 .game {
   display: inline-block;
-  margin: 0 15px 20px 15px;
-  width: 160px;
-  height: 160px;
+  margin: 15px;
+  width: 175px;
+  height: 175px;
   white-space: normal;
-  box-shadow: 2px 2px 4px grey;
-  font-size: 1.3em;
+  box-shadow: 2px 2px 4px gray;
+  font-size: 1.5em;
   vertical-align: middle;
 }
 

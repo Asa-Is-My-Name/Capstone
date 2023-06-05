@@ -1,7 +1,7 @@
 <!doctype html>
 <html>
 <head>
-  <title>SUS 103 Study Site</title>
+  <title>SUS 103 Quiz</title>
   <link rel="stylesheet" href="static/style/style.css"> 
   <!-- hide image hints until button is clicked -->
   <style>
@@ -11,10 +11,10 @@
 
 <body class="study-body">
   {% include 'navBar.html' %}
-
-  <div class="study-box">    
+  <div class="study-box">
+    <h1>Practice Quiz</h1>
     <!-- show question and answer choices -->
-    <h2>{{ question['question'] }}</h2>
+    <h3>{{ question['question'] }}</h3>
     <form action='/quiz' method='POST' >
       <div style='text-align: left; display: inline-block;'>
         {% for choice in question['choices'] %}
@@ -25,8 +25,6 @@
       <input type="submit" value="Submit" style="text-align: center; display: inline-block;"/>
     </form>
     <br>
-
-    <!-- Image hint buttons/images -->
     {% for hint in question['hints'] %}
     <button id="btn{{hint}}" onclick="showImage('{{hint}}')" class="cbtn">Show hint</button>
     <img id="{{hint}}" class="hint_image" src="/static/img/quiz/{{hint}}" alt="Image" width="25%" class="cbtn">
@@ -43,10 +41,9 @@
       }
     </script>
   </div>
-
   <footer>
     <p>Background image from Ivan Bandura via Unsplash</p>
-    <p><a href="https://unsplash.com/photos/fKFIgyxGqgg" target="_blank">https://unsplash.com/photos/fKFIgyxGqgg</a></p>
+    <p><a href="https://unsplash.com/photos/fKFIgyxGqgg">https://unsplash.com/photos/fKFIgyxGqgg</a></p>
   </footer>  
 </body>
 </html>

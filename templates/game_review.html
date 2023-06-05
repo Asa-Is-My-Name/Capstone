@@ -1,14 +1,20 @@
 <!doctype html>
 <html>
 <head>
-  <title>SUS 103 Study Site</title>
-  <link rel="stylesheet" href="static/style/style.css">
-</head>
+  <title>SUS 103 Game</title>
+  <link rel="stylesheet" href="static/style/style.css"> 
 
+  <!-- To hide hint until user clicks hint button -->
+  <style>
+    #hint {display: none;}
+  </style>
+
+</head>
 <body class="game-body">
   {% include 'navBar.html' %}
 
   <div class="game-box">
+    <h1>Introduction to Climate Change</h1>
     <p>Click on a question category to review the answers</p>
 
     <!-- display the question category buttons -->
@@ -18,19 +24,17 @@
       </form>
     </div>
 
-    <!-- display the images associated with the selected question category -->
     {% if images %}
     <h2>{{ question }}</h2>
     {% for image in images %}
         <img src="/static/img/game/{{image['image']}}" alt="Category image" name="image" width="40%"><br>
-        <p style="width: 35%; margin: 0 auto;">{{ image['hint'] }}</p><br>
+        <p style="width: 35%; margin: 0 auto;">{{ image['hint'] }}</p><br><br>
     {% endfor %}
     {% endif %}
     </div>
-
     <footer>
       <p>Background image from the United States Geological Survey</p>
-      <p><a href="https://unsplash.com/photos/3F2YdXjJMCI" target="_blank">https://unsplash.com/photos/3F2YdXjJMCI</a></p>
+      <p><a href="https://unsplash.com/photos/3F2YdXjJMCI">https://unsplash.com/photos/3F2YdXjJMCI</a></p>
     </footer>
 </body>
 
