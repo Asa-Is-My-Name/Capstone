@@ -179,7 +179,7 @@ def play_game():
                 if len(game_images[image_index]["answer"]) > 1:
                     answers = game_images[image_index]["answer"]
                     answers.remove(user_answer)
-                    result = f"Correct! Another correct category is {answers[0]}"
+                    result = f"Correct! (Another correct category is {answers[0]})"
                 image_index += 1   
                 game_score += 1 
                 session['image_index'] = image_index
