@@ -12,7 +12,7 @@ game_images = [
     {
         "image": "Picture3.png",
         "hint": "Temperature anomaly is a difference from the average",
-        "answer": ["question 1", "question 6"]
+        "answer": ["question 1"]
     },
     {
         "image": "Picture4.png",
@@ -21,23 +21,26 @@ game_images = [
     },
     {
         "image": "Picture5.png",
-        "hint": "Even without the temperature record, what other factors show the Earth is warming: " + 
+        "hint": "Even without the temperature record, other factors that show the Earth is warming include: " +
         "melting land ice (glaciers, ice caps, and Greenland & Antarctic ice sheets), sea ice (icebers, North Pole), " +
-        "reduced snow cover, sea level rise, more water in the atmosphere, season length, altered timing of animal migrations, etc.",
+        "reduced snow cover, sea level rise, more water in the atmosphere, season length, altered timing of animal migrations " +
+        "altered plant distributions, coral bleaching, etc.",  
         "answer": ["question 1"]
     },
     {
         "image": "Picture6.png",
-        "hint": "Even without the temperature record, what other factors show the Earth is warming: " +
+        "hint": "Even without the temperature record, other factors that show the Earth is warming include: " +
         "melting land ice (glaciers, ice caps, and Greenland & Antarctic ice sheets), sea ice (icebers, North Pole), " +
-        "reduced snow cover, sea level rise, more water in the atmosphere, season length, altered timing of animal migrations, etc.",        
+        "reduced snow cover, sea level rise, more water in the atmosphere, season length, altered timing of animal migrations " +
+        "altered plant distributions, coral bleaching, etc.",        
         "answer": ["question 1"]
     },
     {
         "image": "Picture7.png",
-        "hint": "Even without the temperature record, what other factors show the Earth is warming: " +
+        "hint": "Even without the temperature record, other factors that show the Earth is warming include: " +
         "melting land ice (glaciers, ice caps, and Greenland & Antarctic ice sheets), sea ice (icebers, North Pole), " +
-        "reduced snow cover, sea level rise, more water in the atmosphere, season length, altered timing of animal migrations, etc.",        
+        "reduced snow cover, sea level rise, more water in the atmosphere, season length, altered timing of animal migrations " +
+        "altered plant distributions, coral bleaching, etc.",         
         "answer": ["question 1"]
     },
     {
@@ -104,7 +107,7 @@ game_images = [
     },
     {
         "image": "Picture19.png",
-        "hint": "O2 is declining which shows the use of O2 to breakdown Fossil Fuels and create CO2",        
+        "hint": "O2 is declining which shows the use of O2 to breakdown Fossil Fuels and create CO2.",        
         "answer": ["question 4"]
     },
     {
@@ -114,31 +117,36 @@ game_images = [
     },
     {
         "image": "Picture21.png",
-        "hint": "Tree rings show Fossil Fuel signatures",        
+        "hint": "C isotope signatures",        
         "answer": ["question 5"]
     },
     {
-        "image": "Picture22.png",
-        "hint": "What factors have caused Climate Change over geologic history?",        
+        "image": "Picture22.jpg",
+        "hint": "What are the 3 primary factors that account for planetary temperatures?",        
         "answer": ["question 6"]
     },
     {
         "image": "Picture23.png",
-        "hint": "What factors have caused Climate Change over the past century?",        
+        "hint": "What factors have caused climate change over the past century?",        
         "answer": ["question 6"]
     },
     {
         "image": "Picture24.png",
+        "hint": "What factors have caused year-to-year variation in temperature over the past century?",        
+        "answer": ["question 6"]
+    },
+    {
+        "image": "Picture25.png",
         "hint": "Temperature and CO2 have been relatively constant over the past 10K years since the rise of the agriculture.",        
         "answer": ["question 7"]
     },
     {
-        "image": "Picture25.png",
-        "hint": "Climate Change over the history of the Earth has resulted in mass extinctions of more than 75% of all species",        
+        "image": "Picture26.png",
+        "hint": "Climate change over the history of the Earth has resulted in mass extinctions of more than 75% of all species",        
         "answer": ["question 7"]
     },
     {
-        "image": "Picture26.png",
+        "image": "Picture27.png",
         "hint": "How can we test whether temperature models are robust and accurate?",        
         "answer": ["question 7"]
     },
