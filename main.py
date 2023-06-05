@@ -5,14 +5,14 @@ import constants
 from game_images import game_images
 import os
 
-
 app = Flask(__name__)
 client = datastore.Client()
 
 
-
 # set a secret key (to use for sessions)
 app.secret_key = os.urandom(24)
+
+
 # This route takes the user to the homepage
 @app.route('/')
 def index():
@@ -37,6 +37,7 @@ def study():
         "hints": e["image"]
         }
         questions.append(q_obj)
+
     # shuffle questions each time quiz is being played
     random.shuffle(questions)
     session['questions'] = questions
@@ -50,6 +51,7 @@ def quiz():
     quiz_score = session.get('quiz_score', 0)
     q_index = session.get('q_index', 0)
     questions = session.get('questions')  
+
     # Use GET method to show question
     if request.method == 'GET':
         # Increment question index (incrementing here ensures result page matches question asked)
@@ -60,7 +62,6 @@ def quiz():
         question = questions[q_index-1]
         return(render_template('quiz.html', question = question))
         
-
     # Use POST method to show result
     if request.method == 'POST': 
         # end var controls which button to show on results page (if quiz is over)
@@ -94,6 +95,7 @@ def quiz_end():
     q_index = session.get('q_index', 0)
     return(render_template('quiz_end.html', correct=quiz_score, total_qs=q_index, percent=get_percentage(quiz_score, q_index)))
 
+
 # This route takes the user to the game review page to see questions & answers
 @app.route('/review', methods=['GET', 'POST'])
 def game_review():
@@ -108,19 +110,19 @@ def game_review():
         # Switch statement to display proper category question
         match category:
             case "question 1":
-                question = "How do we know if the globe is warming?"
+                question = "How do we know the globe is warming?"
             case "question 2":
-                question = "How do we know greenhouse gases warm air?"
+                question = "How do we know greenhouse gases warm the air?"
             case "question 3":
-                question = "How do we know the warming is not from the sun?"
+                question = "How do we know the warming is not from the Sun?"
             case "question 4":
-                question = "How do we know the CO2 is not from volcanoes?"
+                question = "How do we know CO2 is not from volcanoes?"
             case "question 5":
                 question = "How do we know CO2 is from humans?"
             case "question 6":
-                question = "Is climage change just natural variability?"
+                question = "How do we know climate change is not just natural variability?"
             case "question 7":
-                question = "Why does it matter if temperatures are changing?"
+                question = "How do we know warming / climate change matters?"
 
         # append images for category choice to display on page
         images = []
@@ -130,7 +132,7 @@ def game_review():
         return(render_template('game_review.html', images=images, question=question))
 
 
-# This route takes the user to the game play page 
+# This route takes the user to the game play landing page 
 @app.route('/play')
 def play():
     # initialize game variables
@@ -142,6 +144,7 @@ def play():
     return render_template('game.html')
 
 
+# This route takes the user to the game play section 
 @app.route('/game', methods=['GET', 'POST'])
 def play_game():
     # Access to session game variables
@@ -165,12 +168,12 @@ def play_game():
             # Increment score and image_index if answer is correct
             user_answer = request.form["category"]
             if user_answer in game_images[image_index]["answer"]:
-                result = "correct!"
+                result = "Correct!"
                 # Show alternative answer for images that have more than 1 category
                 if len(game_images[image_index]["answer"]) > 1:
                     answers = game_images[image_index]["answer"]
                     answers.remove(user_answer)
-                    result = f"correct! Another correct category is {answers[0]}"
+                    result = f"Correct! (Another correct category is {answers[0]})"
                 image_index += 1   
                 game_score += 1 
                 session['image_index'] = image_index
@@ -182,6 +185,8 @@ def play_game():
             hint = game_images[image_index]["hint"]
             return render_template('game_play.html', answer=user_answer.capitalize(), image=image_url, last=last_image, hint=hint, result=result, score=game_score, questions=len(game_images))
 
+
+# This route takes the user to the admin login page
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if request.method == 'GET':
@@ -192,6 +197,7 @@ def login():
             return redirect(url_for('login'))
         session['admin'] = True
         return redirect(url_for('admin'))
+
 
 # This route takes the user to the admin page
 @app.route('/admin')
@@ -205,9 +211,11 @@ def admin():
         q_list.append(str(e["question"]))
     return render_template('admin.html',q_list=q_list)
 
+
 @app.route('/addq')
 def add_page():
     return render_template('addq.html')
+
 
 @app.route('/add', methods=['POST'])
 def add():
@@ -234,6 +242,7 @@ def add():
         client.put(new_q)
         return redirect(url_for('admin'))
 
+
 @app.route('/editq')
 def edit_page():
     query = client.query(kind=constants.questions)
@@ -244,6 +253,7 @@ def edit_page():
     if len(q_list) == 0:
         return redirect(url_for('admin'))
     return render_template('editq_choice.html', q_list=q_list)
+
 
 @app.route('/edit_choice', methods=["POST"])
 def edit_question():
@@ -299,8 +309,6 @@ def edit():
     return redirect(url_for('admin'))
 
 
-
-
 @app.route('/deleteq')
 def delete_page():
     query = client.query(kind=constants.questions)
@@ -311,6 +319,7 @@ def delete_page():
     if len(q_list) == 0:
         return redirect(url_for('admin'))
     return render_template('deleteq.html', q_list=q_list)
+
 
 @app.route('/delete', methods=["POST"])
 def delete():
