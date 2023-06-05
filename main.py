@@ -40,8 +40,12 @@ def study():
 
     # shuffle questions each time quiz is being played
     random.shuffle(questions)
-    session['questions'] = questions
-    print(session.get('questions'))
+    #Store randomized quiz in database
+    new_quiz = datastore.entity.Entity(key=client.key(constants.quizzes))
+    new_quiz.update({"quiz": questions})
+    client.put(new_quiz)
+    #Store the id of the randomized quiz in a session object
+    session['questions_id'] = new_quiz.key.id
     return render_template('study.html')
 
 
@@ -50,8 +54,9 @@ def study():
 def quiz():
     quiz_score = session.get('quiz_score', 0)
     q_index = session.get('q_index', 0)
-    questions = session.get('questions')  
-
+    q_key = client.key(constants.quizzes, int(session.get('questions_id')))
+    quiz = client.get(key=q_key)
+    questions = quiz['quiz'] 
     # Use GET method to show question
     if request.method == 'GET':
         # Increment question index (incrementing here ensures result page matches question asked)
@@ -60,8 +65,8 @@ def quiz():
 
         # Show next question (-1 to account for indexing starting at 0)
         question = questions[q_index-1]
-        return(render_template('quiz.html', question = question))
-        
+        return(render_template('quiz.html', question = question))    
+
     # Use POST method to show result
     if request.method == 'POST': 
         # end var controls which button to show on results page (if quiz is over)
@@ -93,8 +98,10 @@ def quiz():
 def quiz_end():
     quiz_score = session.get('quiz_score', 0)
     q_index = session.get('q_index', 0)
+    q_key = client.key(constants.quizzes, int(session.get('questions_id')))
+    client.delete(q_key)
+    session.pop('questions_id', default=None)
     return(render_template('quiz_end.html', correct=quiz_score, total_qs=q_index, percent=get_percentage(quiz_score, q_index)))
-
 
 # This route takes the user to the game review page to see questions & answers
 @app.route('/review', methods=['GET', 'POST'])
@@ -132,7 +139,7 @@ def game_review():
         return(render_template('game_review.html', images=images, question=question))
 
 
-# This route takes the user to the game play landing page 
+# This route takes the user to the game play landing page
 @app.route('/play')
 def play():
     # initialize game variables
@@ -143,8 +150,7 @@ def play():
     random.shuffle(game_images)
     return render_template('game.html')
 
-
-# This route takes the user to the game play section 
+# This route takes the user to the game play section
 @app.route('/game', methods=['GET', 'POST'])
 def play_game():
     # Access to session game variables
@@ -183,8 +189,9 @@ def play_game():
             image_url = game_images[image_index]["image"]
             last_image = game_images[image_index-1]["image"]
             hint = game_images[image_index]["hint"]
-            return render_template('game_play.html', answer=user_answer.capitalize(), image=image_url, last=last_image, hint=hint, result=result, score=game_score, questions=len(game_images))
-
+            return render_template('game_play.html', 
+                                   answer=user_answer.capitalize(), image=image_url, last=last_image, 
+                                   hint=hint, result=result, score=game_score, questions=len(game_images))
 
 # This route takes the user to the admin login page
 @app.route('/login', methods=['GET', 'POST'])
@@ -198,7 +205,6 @@ def login():
         session['admin'] = True
         return redirect(url_for('admin'))
 
-
 # This route takes the user to the admin page
 @app.route('/admin')
 def admin():
@@ -211,11 +217,9 @@ def admin():
         q_list.append(str(e["question"]))
     return render_template('admin.html',q_list=q_list)
 
-
 @app.route('/addq')
 def add_page():
     return render_template('addq.html')
-
 
 @app.route('/add', methods=['POST'])
 def add():
@@ -242,7 +246,6 @@ def add():
         client.put(new_q)
         return redirect(url_for('admin'))
 
-
 @app.route('/editq')
 def edit_page():
     query = client.query(kind=constants.questions)
@@ -253,7 +256,6 @@ def edit_page():
     if len(q_list) == 0:
         return redirect(url_for('admin'))
     return render_template('editq_choice.html', q_list=q_list)
-
 
 @app.route('/edit_choice', methods=["POST"])
 def edit_question():
@@ -271,7 +273,8 @@ def edit_question():
                 id = str(e.key.id)
                 question = question_obj['question']
                 week = question_obj['week']
-                return render_template('editq_question.html', answer=answer, choices=choices,image=image,question=question,week=week,id=id)
+                return render_template('editq_question.html', answer=answer, 
+                                       choices=choices,image=image,question=question,week=week,id=id)
             
 
 @app.route('/edit', methods=['POST'])
@@ -309,6 +312,8 @@ def edit():
     return redirect(url_for('admin'))
 
 
+
+
 @app.route('/deleteq')
 def delete_page():
     query = client.query(kind=constants.questions)
@@ -319,7 +324,6 @@ def delete_page():
     if len(q_list) == 0:
         return redirect(url_for('admin'))
     return render_template('deleteq.html', q_list=q_list)
-
 
 @app.route('/delete', methods=["POST"])
 def delete():
