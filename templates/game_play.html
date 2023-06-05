@@ -1,35 +1,32 @@
 <!doctype html>
 <html>
 <head>
-  <title>SUS 103 Game</title>
+  <title>SUS 103 Study Site</title>
   <link rel="stylesheet" href="static/style/style.css"> 
-
+  
   <!-- To hide hint until user clicks hint button -->
   <style>
     #hint {display: none;}
   </style>
-
 </head>
+
 <body class="game-body">
   {% include 'navBar.html' %}
 
-  <div class="game-box">
-    <h1>Introduction to Climate Change</h1>
-    
+  <div class="game-box">    
     <!-- Show score -->
     {% if result %}
-      <p>Score: {{ score }}/{{ questions }}</p>
+      <p id="score">Score: {{ score }}/{{ questions }}</p>
     {% else %}
-      <h4>Click on the question that the image below addresses</h4>
+      <p>Click on the question category that the image below addresses</p>
     {% endif %}
 
     <!-- Show result text -->
     {% if result[0] == "i" %}
-      <p style="color: red;">{{ answer }} is {{ result }} </p>
-    {% elif result[0] == "c" %}
-      <p style="color: green;">{{ answer }} is {{ result }} </p>
-      <img src="/static/img/game/{{last}}" alt="Previous image" width="10%"><br>
-      <h4>Click on the question that the image below addresses</h4>
+      <p style="color: orangered;">{{ answer }} is {{ result }} </p>
+    {% elif result[0] == "C" %}
+      <p style="color: lightgreen;">{{ result }} </p>
+      Click on the question category that the image below addresses</p>
     {% endif %}
 
     <!-- display the question category buttons -->
@@ -37,13 +34,14 @@
       <form method="POST" action="/game">
         {% include 'game_categories.html' %}
       </form>
+      <br>
     </div> 
   
-
     <!-- display image and hint button -->
     <img src="/static/img/game/{{image}}" alt="Game image" width="40%"><br><br>
     <button id="btn" onclick="showHint()">Show hint</button>
     <p id="hint">{{hint}}</p>
+    <br>
 
     <!-- show hint when the hint button is clicked -->
     <script>
@@ -55,10 +53,11 @@
         }
     </script>
   </div>
-    <footer>
-      <p>Background image from the United States Geological Survey</p>
-      <p><a href="https://unsplash.com/photos/3F2YdXjJMCI">https://unsplash.com/photos/3F2YdXjJMCI</a></p>
-    </footer>
+
+  <footer>
+    <p>Background image from the United States Geological Survey</p>
+    <p><a href="https://unsplash.com/photos/3F2YdXjJMCI" target="_blank">https://unsplash.com/photos/3F2YdXjJMCI</a></p>
+  </footer>
 </body>
 
 </html>
