@@ -1,16 +1,17 @@
 <!doctype html>
 <html>
   <head>
-    <title>SUS 103 Quiz</title>
+    <title>SUS 103 Study Site</title>
     <link rel="stylesheet" href="static/style/style.css"> 
-
   </head>
+
   <body class="study-body">
     {% include 'navBar.html' %}
     <div class="study-box"> 
+
+      <!-- Show final quiz score and button option to take quiz again -->
       <h2>Quiz Results</h2>
       <h3>Final Score: {{correct}} / {{total_qs}} = {{percent}}%</h3>
-    
       <form action ="/study">
         <input type="submit" value="Take the quiz again"/>
       </form>
@@ -20,9 +21,10 @@
       </form>
       <br> 
     </div> 
+    
     <footer>
       <p>Background image from Ivan Bandura via Unsplash</p>
-      <p><a href="https://unsplash.com/photos/fKFIgyxGqgg">https://unsplash.com/photos/fKFIgyxGqgg</a></p>
+      <p><a href="https://unsplash.com/photos/fKFIgyxGqgg" target="_blank">https://unsplash.com/photos/fKFIgyxGqgg</a></p>
     </footer> 
   </body>
 </html> 

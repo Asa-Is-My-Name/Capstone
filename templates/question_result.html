@@ -1,10 +1,10 @@
 <!doctype html>
 <html>
 <head>
-  <title>SUS 103 Quiz</title>
+  <title>SUS 103 Study Site</title>
   <link rel="stylesheet" href="static/style/style.css"> 
-  
 </head>
+
 <body class="study-body">
   {% include 'navBar.html' %}
 
@@ -18,7 +18,7 @@
   
         <!-- Highlight the correct answer -->
         {% if choice[0] == question['answer'] %}
-          <strong style="color: green;">&emsp; {{ choice }}</strong><br>
+          <strong style="color: lightgreen;">&emsp; {{ choice }}</strong><br>
         {% else %}
           &emsp;{{ choice }}<br>
         {% endif %}
@@ -51,7 +51,7 @@
   </div>
   <footer>
     <p>Background image from Ivan Bandura via Unsplash</p>
-    <p><a href="https://unsplash.com/photos/fKFIgyxGqgg">https://unsplash.com/photos/fKFIgyxGqgg</a></p>
+    <p><a href="https://unsplash.com/photos/fKFIgyxGqgg" target="_blank">https://unsplash.com/photos/fKFIgyxGqgg</a></p>
   </footer>    
 </body>
 </html> 
