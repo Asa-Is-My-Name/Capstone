@@ -1,15 +1,16 @@
 <!doctype html>
 <html>
 <head>
-  <title>SUS 103 Game</title>
+  <title>SUS 103 Study Site</title>
   <link rel="stylesheet" href="static/style/style.css"> 
-
 </head>
+
 <body class="game-body">
   {% include 'navBar.html' %}
   <div class="game-box">
     <p>Game over. Thanks for playing!</p>
 
+    <!-- display navigation buttons -->
     <form action ="/play">
         <input type="submit" value="Play again!"/>
     </form>
@@ -21,9 +22,10 @@
     <form action ="/">
         <input type="submit" value="Return to main menu"/>
     </form>
-      <footer>
-        <p>Background image from the United States Geological Survey</p>
-        <p><a href="https://unsplash.com/photos/3F2YdXjJMCI">https://unsplash.com/photos/3F2YdXjJMCI</a></p>
-      </footer>
+    
+    <footer>
+      <p>Background image from the United States Geological Survey</p>
+      <p><a href="https://unsplash.com/photos/3F2YdXjJMCI" target="_blank">https://unsplash.com/photos/3F2YdXjJMCI</a></p>
+    </footer>
   </body>
 </html>
