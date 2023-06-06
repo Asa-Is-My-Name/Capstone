@@ -4,6 +4,7 @@ from google.cloud import datastore
 import constants
 from game_images import game_images
 import os
+import time
 
 app = Flask(__name__)
 client = datastore.Client()
@@ -30,50 +31,49 @@ def study():
     query = client.query(kind=constants.questions)
     results = list(query.fetch())
     for e in results:
-        q_obj = {
-        "question": e["question"],
-        "choices": e["choices"],
-        "answer": e["answer"],
-        "hints": e["image"]
-        }
-        questions.append(q_obj)
-
+        questions.append(e.key.id)
+        
     # shuffle questions each time quiz is being played
     random.shuffle(questions)
-    #Store randomized quiz in database
-    new_quiz = datastore.entity.Entity(key=client.key(constants.quizzes))
-    new_quiz.update({"quiz": questions})
-    client.put(new_quiz)
+    
     #Store the id of the randomized quiz in a session object
-    session['questions_id'] = new_quiz.key.id
+    session['questions'] = questions
+    time.sleep(1)
     return render_template('study.html')
 
 
 # This route takes the user to the quiz questions
 @app.route('/quiz', methods=['GET', 'POST'])
 def quiz():
-    quiz_score = session.get('quiz_score', 0)
-    q_index = session.get('q_index', 0)
-    q_key = client.key(constants.quizzes, int(session.get('questions_id')))
-    quiz = client.get(key=q_key)
-    questions = quiz['quiz'] 
+
     # Use GET method to show question
     if request.method == 'GET':
+        quiz_score = session.get('quiz_score', 0)
+        q_index = session.get('q_index', 0)
+        questions_ids = session.get('questions')
+        time.sleep(1)
         # Increment question index (incrementing here ensures result page matches question asked)
         q_index += 1
         session['q_index'] = q_index
 
         # Show next question (-1 to account for indexing starting at 0)
-        question = questions[q_index-1]
+        q_key = client.key(constants.questions, int(questions_ids[q_index-1]))
+        question = client.get(key=q_key)
         return(render_template('quiz.html', question = question))    
 
     # Use POST method to show result
-    if request.method == 'POST': 
+    if request.method == 'POST':
+        quiz_score = session.get('quiz_score', 0)
+        q_index = session.get('q_index', 0)
+        questions_ids = session.get('questions') 
+        time.sleep(1)
         # end var controls which button to show on results page (if quiz is over)
         end = False
-        if q_index == len(questions):
+        if q_index == len(questions_ids):
             end = True
-        question = questions[q_index-1]
+        
+        q_key = client.key(constants.questions, int(questions_ids[q_index-1]))
+        question = client.get(key=q_key)
         # Increment user's score if answer is correct (based on first char of form selection)
         user_ans = request.form.get('options')[0]
         result = "incorrect"
@@ -89,7 +89,7 @@ def quiz():
             user_ans = "False"
 
         # Retrieve question information to pass to template
-        return render_template('question_result.html', correct=quiz_score, qs_asked=q_index, total_qs=len(questions),
+        return render_template('question_result.html', correct=quiz_score, qs_asked=q_index, total_qs=len(questions_ids),
                            percent = get_percentage(quiz_score, q_index), result=result, question=question, answer=user_ans, end=end)
 
 
@@ -98,9 +98,6 @@ def quiz():
 def quiz_end():
     quiz_score = session.get('quiz_score', 0)
     q_index = session.get('q_index', 0)
-    q_key = client.key(constants.quizzes, int(session.get('questions_id')))
-    client.delete(q_key)
-    session.pop('questions_id', default=None)
     return(render_template('quiz_end.html', correct=quiz_score, total_qs=q_index, percent=get_percentage(quiz_score, q_index)))
 
 # This route takes the user to the game review page to see questions & answers
