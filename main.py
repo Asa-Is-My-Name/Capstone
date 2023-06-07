@@ -236,10 +236,14 @@ def login():
 # Admin routes for adding a question
 @app.route('/addq')
 def add_page():
+    if session.get('admin') == False or session.get('admin') is None:
+        return redirect(url_for('login'))
     return render_template('addq.html')
 
 @app.route('/add', methods=['POST'])
 def add():
+    if session.get('admin') == False or session.get('admin') is None:
+        return redirect(url_for('login'))
     if request.method == 'POST':
         content = request.form
         #parsing the form to format the data properly
@@ -267,6 +271,8 @@ def add():
 # Admin routes for editing a question
 @app.route('/editq')
 def edit_page():
+    if session.get('admin') == False or session.get('admin') is None:
+        return redirect(url_for('login'))
     query = client.query(kind=constants.questions)
     results = list(query.fetch())
     q_list = []
@@ -281,6 +287,8 @@ def edit_page():
 
 @app.route('/edit_choice', methods=["POST"])
 def edit_question():
+    if session.get('admin') == False or session.get('admin') is None:
+        return redirect(url_for('login'))
     content= request.form['question_to_edit']
     if request.method == 'POST':
         query = client.query(kind=constants.questions)
@@ -301,6 +309,8 @@ def edit_question():
 @app.route('/edit', methods=['POST'])
 def edit():
     if request.method == 'POST':
+        if session.get('admin') == False or session.get('admin') is None:
+            return redirect(url_for('login'))
         content = request.form
         query = client.query(kind=constants.questions)
         results = list(query.fetch())
@@ -335,6 +345,8 @@ def edit():
 # Admin routes for deleting a question
 @app.route('/deleteq')
 def delete_page():
+    if session.get('admin') == False or session.get('admin') is None:
+        return redirect(url_for('login'))
     query = client.query(kind=constants.questions)
     results = list(query.fetch())
     q_list = []
@@ -349,6 +361,8 @@ def delete_page():
 
 @app.route('/delete', methods=["POST"])
 def delete():
+    if session.get('admin') == False or session.get('admin') is None:
+        return redirect(url_for('login'))
     content= request.form['question']
     if request.method == 'POST':
         query = client.query(kind=constants.questions)
