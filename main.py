@@ -3,15 +3,14 @@ import random
 from google.cloud import datastore
 import constants
 from game_images import game_images
-import os
 import time
 
 app = Flask(__name__)
 client = datastore.Client()
 
 # set a secret key (to use for sessions)
-app.secret_key = os.urandom(24)
-
+app.secret_key = "\xf4\xcb\xdfO\xf2\x05$\x8d\x8b\xf5\x19@\xc9\xb4\x94\xeb\x9b\xef'\xfa;\tKQ".encode('utf8')
+app.config['SESSION_PERMANENT'] = True
 
 # This route takes the user to the homepage
 @app.route('/')
@@ -63,7 +62,6 @@ def quiz():
         quiz_score = session.get('quiz_score', 0)
         q_index = session.get('q_index', 0)
         questions_ids = session.get('questions')
-        time.sleep(1)
 
         # Increment question index (incrementing here ensures result page matches question asked)
         q_index += 1
@@ -78,8 +76,7 @@ def quiz():
     if request.method == 'POST':
         quiz_score = session.get('quiz_score', 0)
         q_index = session.get('q_index', 0)
-        questions_ids = session.get('questions', 0) 
-        time.sleep(1)
+        questions_ids = session.get('questions') 
 
         # end var controls which button to show on results page (if quiz is over)
         end = False
@@ -239,10 +236,14 @@ def login():
 # Admin routes for adding a question
 @app.route('/addq')
 def add_page():
+    if session.get('admin') == False or session.get('admin') is None:
+        return redirect(url_for('login'))
     return render_template('addq.html')
 
 @app.route('/add', methods=['POST'])
 def add():
+    if session.get('admin') == False or session.get('admin') is None:
+        return redirect(url_for('login'))
     if request.method == 'POST':
         content = request.form
         #parsing the form to format the data properly
@@ -270,6 +271,8 @@ def add():
 # Admin routes for editing a question
 @app.route('/editq')
 def edit_page():
+    if session.get('admin') == False or session.get('admin') is None:
+        return redirect(url_for('login'))
     query = client.query(kind=constants.questions)
     results = list(query.fetch())
     q_list = []
@@ -284,6 +287,8 @@ def edit_page():
 
 @app.route('/edit_choice', methods=["POST"])
 def edit_question():
+    if session.get('admin') == False or session.get('admin') is None:
+        return redirect(url_for('login'))
     content= request.form['question_to_edit']
     if request.method == 'POST':
         query = client.query(kind=constants.questions)
@@ -304,6 +309,8 @@ def edit_question():
 @app.route('/edit', methods=['POST'])
 def edit():
     if request.method == 'POST':
+        if session.get('admin') == False or session.get('admin') is None:
+            return redirect(url_for('login'))
         content = request.form
         query = client.query(kind=constants.questions)
         results = list(query.fetch())
@@ -338,6 +345,8 @@ def edit():
 # Admin routes for deleting a question
 @app.route('/deleteq')
 def delete_page():
+    if session.get('admin') == False or session.get('admin') is None:
+        return redirect(url_for('login'))
     query = client.query(kind=constants.questions)
     results = list(query.fetch())
     q_list = []
@@ -352,6 +361,8 @@ def delete_page():
 
 @app.route('/delete', methods=["POST"])
 def delete():
+    if session.get('admin') == False or session.get('admin') is None:
+        return redirect(url_for('login'))
     content= request.form['question']
     if request.method == 'POST':
         query = client.query(kind=constants.questions)

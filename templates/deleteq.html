@@ -12,12 +12,17 @@
       <!-- Form for deleting a question from the database -->
       <h1>Choose a question to delete</h1>
       <form action="/delete" method ="POST">
+        <div style='text-align: left; display: inline-block; width:fit-content; word-wrap: normal;'>
         {% for question in q_list%}
+        <label>
         <input type="radio" name="question" id='{{question}}' value='{{question}}' required/>{{ question }}<br><br>
+        </label>
         {% endfor %}
-
+      </div>
+      <br>
         <!-- Confirm user wants to delete question before submitting form -->
-        <input type="submit" onclick="return confirm('Are you sure you want to delete this question?')" value="Submit">
+        <input type="submit" style="text-align: center; display: inline-block;"
+        onclick="return confirm('Are you sure you want to delete this question?')" value="Submit">
       </form>
 
       <!-- Option to cancel and return to Admin homepage -->
