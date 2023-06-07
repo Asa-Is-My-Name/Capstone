@@ -4,49 +4,56 @@
     <title>SUS 103 Study Site</title>
     <link rel="stylesheet" href="static/style/style.css"> 
   </head>
+
   <body class="admin-body">
     {% include 'navBar.html' %}
     <div class="admin-box"> 
-      <h1>Introduction to Climate Change</h1>
-      <h2>Pick a question to edit</h2>
-      <form action="/edit" method ="POST" autocomplete="OFF">
-          <label for="question">Question Text (Format: "Is the sun hot?")</label><br>
-          <input type="text" id="question" name="question" size="100" value='{{question}}'required><br><br>
-  
-          <label for="choices">Choices Text (Format: "choice1;choice2;choice3")</label><br>
-          <input type="text" id="choices" name="choices" size="100" value='{{choices}}'required><br><br>
-  
-          <label for="answer">Correct Answer Letter (Format: "A" [T or F for True or False])</label><br>
-          <input type="text" id="answer" name="answer" maxlength="1" size="1" value='{{answer}}' onkeyup="this.value = this.value.toUpperCase();" required><br><br>
-  
-          <label for="week">Week </label><br>
-          <select id="week" name="week" required>
-            <option value="midterm">Midterm</option> 
-            <option value="final">Final</option> 
-            <option value="week1">Week 1</option> 
-            <option value="week2">Week 2</option> 
-            <option value="week3">Week 3</option> 
-            <option value="week4">Week 4</option> 
-            <option value="week5">Week 5</option> 
-            <option value="week6">Week 6</option> 
-            <option value="week7">Week 7</option> 
-            <option value="week8">Week 8</option> 
-            <option value="week9">Week 9</option> 
-            <option value="week10">Week 10</option> 
-          </select><br><br>
-  
-          <label for="image">Hint Image File Name (Format: "file1.jpg;file2.jpg")</label><br>
-          <input type="text" id="image" name="image" value='{{image}}' size="100"><br><br>
-          
-          <input type="hidden" id="id" name="id" value='{{id}}' size="100"><br><br>
 
-          <input type="submit" value="Submit">
-  
-        </form>
-      </div> 
-    </body>
+      <!-- Form for editing a question in the database -->
+      <h1>Edit question</h1>
+      <form action="/edit" method ="POST" autocomplete="OFF">
+        <label for="question">Question Text (Format: "Is the sun hot?")</label><br>
+        <input type="text" id="question" name="question" size="100" value='{{question}}'required><br><br>
+
+        <label for="choices">Choices Text (Format: "A. choice1;B. choice2;C. choice3")</label><br>
+        <input type="text" id="choices" name="choices" size="100" value='{{choices}}'required><br><br>
+
+        <label for="answer">Correct Answer Letter (Format: "A" [T or F for True or False])</label><br>
+        <input type="text" id="answer" name="answer" maxlength="1" size="1" value='{{answer}}' onkeyup="this.value = this.value.toUpperCase();" required><br><br>
+
+        <label for="week">Week </label><br>
+        <select id="week" name="week" required>
+          <option value="midterm">Midterm</option> 
+          <option value="final">Final</option> 
+          <option value="week1">Week 1</option> 
+          <option value="week2">Week 2</option> 
+          <option value="week3">Week 3</option> 
+          <option value="week4">Week 4</option> 
+          <option value="week5">Week 5</option> 
+          <option value="week6">Week 6</option> 
+          <option value="week7">Week 7</option> 
+          <option value="week8">Week 8</option> 
+          <option value="week9">Week 9</option> 
+          <option value="week10">Week 10</option> 
+        </select><br><br>
+
+        <label for="image">Hint Image File Name (Format: "file1.jpg;file2.jpg")</label><br>
+        <input type="text" id="image" name="image" value='{{image}}' size="100"><br><br>
+        
+        <input type="hidden" id="id" name="id" value='{{id}}' size="100"><br><br>
+
+        <input type="submit" value="Submit">
+      </form>
+
+      <!-- Option to cancel and return to Admin homepage -->
+      <br><form action="/admin">
+        <input type="submit" value="Cancel">
+      </form>
+    </div> 
+
     <footer>
       <p>Background image from Ivan Bandura via Unsplash</p>
       <p><a href="https://unsplash.com/photos/PV8D2xTjdVo" target="_blank">https://unsplash.com/photos/PV8D2xTjdVo</a></p>
     </footer> 
+  </body>
   </html>

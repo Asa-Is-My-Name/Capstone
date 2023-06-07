@@ -4,21 +4,29 @@
     <title>SUS 103 Study Site</title>
     <link rel="stylesheet" href="static/style/style.css"> 
   </head>
+
   <body class="admin-body">
     {% include 'navBar.html' %}
     <div class="admin-box"> 
-      <h1>Introduction to Climate Change</h1>
-      <h2>Pick a question to edit</h2>
-      <form action="/edit_choice" method ="POST" autocomplete="OFF">
-        {% for question in q_list%}
-        <input type="radio" name="question_to_edit" id='question_to_edit' value='{{question}}' required/>{{ question }}<br><br>
-        {% endfor %}
-        <input type="submit" value="Submit">
-        </form>
-      </div> 
-    </body>
+
+    <!-- Form for selecing which question to edit in the database -->
+    <h1>Pick a question to edit</h1>
+    <form action="/edit_choice" method ="POST" autocomplete="OFF">
+      {% for question in q_list%}
+      <input type="radio" name="question_to_edit" id='question_to_edit' value='{{question}}' required/>{{ question }}<br><br>
+      {% endfor %}
+      <input type="submit" value="Submit">
+      </form>
+
+      <!-- Option to cancel and return to Admin homepage -->
+      <br><form action="/admin">
+        <input type="submit" value="Cancel">
+      </form>
+
+    </div> 
     <footer>
       <p>Background image from Ivan Bandura via Unsplash</p>
       <p><a href="https://unsplash.com/photos/PV8D2xTjdVo" target="_blank">https://unsplash.com/photos/PV8D2xTjdVo</a></p>
     </footer>  
+  </body>
   </html>

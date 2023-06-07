@@ -8,27 +8,28 @@
 
 <body class="home-body">
    {% include 'navBar.html' %}
-
   <div class="home-box">
-  <h1>Introduction to Climate Change</h1>
+  
+    <!-- Homepage for the site -->
+    <h1>Introduction to Climate Change</h1>
+    <h2 class="intro">This website is designed to help you thrive in your class and in life after you complete this course.
+        The goal is to spread verified information about climate change so that we can become better advocates 
+        for this beautiful planet we get to call home.</h2>
 
-  <h2 class="intro">This website is designed to help you thrive in your class and in life after you complete this course.
-      The goal is to spread verified information about climate change so that we can become better advocates 
-      for this beautiful planet we get to call home.</h2>
+    <!-- Navigation buttons (in addition to Navbar)-->
+    <form action ="/study">
+        <input type="submit" value="Take practice quiz"/>
+    </form>
+    <br>
+    <form action ="/play">
+      <input type="submit" value="Play matching game"/>
+    </form>
+    <br>
+  </div>
 
-  <form action ="/study">
-      <input type="submit" value="Take practice quiz"/>
-  </form>
-  <br>
-  <form action ="/play">
-    <input type="submit" value="Play matching game"/>
-  </form>
-  <br>
-</div>
-
-<footer>
-  <p>Background image from the United States Geological Survey</p>
-  <p><a href="https://unsplash.com/photos/nF1FvXdJL7o" target="_blank">https://unsplash.com/photos/nF1FvXdJL7o</a></p>
-</footer>
+  <footer>
+    <p>Background image from the United States Geological Survey</p>
+    <p><a href="https://unsplash.com/photos/nF1FvXdJL7o" target="_blank">https://unsplash.com/photos/nF1FvXdJL7o</a></p>
+  </footer>
 </body>
 </html>

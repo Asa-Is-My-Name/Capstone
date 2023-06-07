@@ -8,8 +8,9 @@
   <body class="admin-body">
     {% include 'navBar.html' %}
     <div class="admin-box"> 
-      <h1>Introduction to Climate Change</h1>
-      <h2>Pick a question to edit</h2>
+
+      <!-- Form for editing a question in the database -->
+      <h1>Pick a question to edit</h1>
       <form action="/edit" method ="POST" autocomplete="OFF">
         {% for question in q_list%}
         <input type="radio" name="question_to_edit" id='question_to_edit' value='{{question}}' required/>{{ question }}<br><br>
@@ -18,7 +19,7 @@
         <label for="question">Question Text (Format: "Is the sun hot?")</label><br>
         <input type="text" id="question" name="question" required><br><br>
 
-        <label for="choices">Choices Text (Format: "choice1,choice2,choice3")</label><br>
+        <label for="choices">Choices Text (Format: "A. choice1;B. choice2;C. choice3")</label><br>
         <input type="text" id="choices" name="choices" required><br><br>
 
         <label for="answer">Answer (Format: "A" [One character only, true or false == T or F])</label><br>
@@ -31,8 +32,13 @@
         <input type="text" id="image" name="image"><br><br>
         
         <input type="submit" value="Submit">
-
       </form>
+      
+      <!-- Option to cancel and return to Admin homepage -->
+      <br><form action="/admin">
+        <input type="submit" value="Cancel">
+      </form>
+
     </div> 
     <footer>
       <p>Background image from Ivan Bandura via Unsplash</p>
