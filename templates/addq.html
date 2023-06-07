@@ -3,18 +3,20 @@
   <head>
     <title>SUS 103 Study Site</title>
     <link rel="stylesheet" href="static/style/style.css"> 
-
   </head>
+
   <body class="admin-body">
     {% include 'navBar.html' %}
     <div class="admin-box"> 
-      <h1>Introduction to Climate Change</h1>
-      <h2>Add a question</h2>
+
+      <!-- Form for adding a question to the database -->
+      <h1>Add a question</h1>
       <form action="/add" method ="POST" autocomplete="off">
+
         <label for="question">Question Text (Format: "Is the sun hot?")</label><br>
         <input type="text" id="question" name="question" size="100" required><br><br>
 
-        <label for="choices">Choices Text (Format: "choice1;choice2;choice3")</label><br>
+        <label for="choices">Choices Text (Format: "A. choice1;B. choice2;C. choice3")</label><br>
         <input type="text" id="choices" name="choices" size="100" required><br><br>
 
         <label for="answer">Correct Answer Letter (Format: "A" [T or F for True or False])</label><br>
@@ -40,6 +42,12 @@
         <input type="text" id="image" name="image" size="100"><br><br>
         <input type="submit" value="Submit">
       </form>
+
+      <!-- Option to cancel and return to Admin homepage -->
+      <br><form action="/admin">
+        <input type="submit" value="Cancel">
+      </form>
+
     </div>
     <footer>
       <p>Background image from Ivan Bandura via Unsplash</p>

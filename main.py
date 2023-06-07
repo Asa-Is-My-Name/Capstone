@@ -9,7 +9,6 @@ import time
 app = Flask(__name__)
 client = datastore.Client()
 
-
 # set a secret key (to use for sessions)
 app.secret_key = os.urandom(24)
 
@@ -18,8 +17,6 @@ app.secret_key = os.urandom(24)
 @app.route('/')
 def index():
     session.clear()
-    # Use session to prevent access to the Admin section without password
-    session['admin'] = False
     return render_template('index.html')
 
 
@@ -75,7 +72,7 @@ def quiz():
         # Show next question (-1 to account for indexing starting at 0)
         q_key = client.key(constants.questions, int(questions_ids[q_index-1]))
         question = client.get(key=q_key)
-        return(render_template('quiz.html', question = question))    
+        return(render_template('quiz.html', question = question)) 
 
     # Use POST method to show result
     if request.method == 'POST':
@@ -217,7 +214,16 @@ def game_review():
         return(render_template('game_review.html', images=images, question=question))
     
 
-# This route takes the user to the admin login page
+# This route takes the user to the Admin homepage
+@app.route('/admin')
+def admin():
+    # Redirect to homepage if password has not yet been entered
+    if session.get('admin') == False or session.get('admin') is None:
+        return redirect(url_for('login'))
+    return render_template('admin.html')
+
+
+# This route takes the user to the Admin login page
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if request.method == 'GET':
@@ -228,19 +234,6 @@ def login():
             return redirect(url_for('login'))
         session['admin'] = True
         return redirect(url_for('admin'))
-
-
-# This route takes the user to the admin homepage
-@app.route('/admin')
-def admin():
-    if session.get('admin') == False:
-        return redirect(url_for('login'))
-    query = client.query(kind=constants.questions)
-    results = list(query.fetch())
-    q_list = []
-    for e in results:
-        q_list.append(str(e["question"]))
-    return render_template('admin.html',q_list=q_list)
 
 
 # Admin routes for adding a question
@@ -335,8 +328,7 @@ def edit():
         img_str = str(content['image'])
         images = img_str.split(';')
 
-        # adding question to database based on parsed data
-
+        # updating question in database based on parsed data
         q_to_edit.update({"question": question, "choices": choices,
           "answer": answer, "week": week, "image": images} )
         client.put(q_to_edit)
@@ -361,7 +353,6 @@ def delete_page():
 @app.route('/delete', methods=["POST"])
 def delete():
     content= request.form['question']
-
     if request.method == 'POST':
         query = client.query(kind=constants.questions)
         results = list(query.fetch())

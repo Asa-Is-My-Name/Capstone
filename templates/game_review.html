@@ -7,11 +7,10 @@
 
 <body class="game-body">
   {% include 'navBar.html' %}
-
   <div class="game-box">
-    <p>Click on a question category to review the answers</p>
-
+    
     <!-- display the question category buttons -->
+    <p>Click on a question category to review the answers</p>
     <div id="game-buttons">
       <form method="POST" action="/review">
         {% include 'game_categories.html' %}
@@ -33,5 +32,4 @@
       <p><a href="https://unsplash.com/photos/3F2YdXjJMCI" target="_blank">https://unsplash.com/photos/3F2YdXjJMCI</a></p>
     </footer>
 </body>
-
 </html>
