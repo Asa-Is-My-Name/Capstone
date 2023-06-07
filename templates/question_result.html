@@ -9,21 +9,21 @@
   {% include 'navBar.html' %}
 
   <div class="study-box">
-    <h2>Practice Quiz</h2>
-
+    <div style='text-align: left; display: inline-block;'></div>
     <!-- Show result of question and current score -->
     <h3>{{ answer }} is {{ result }}</h3>
     <h3>{{ question['question'] }}</h3>
+    <div style='text-align: left; display: inline-block;'>
       {% for choice in question['choices'] %}
   
         <!-- Highlight the correct answer -->
         {% if choice[0] == question['answer'] %}
-          <strong style="color: lightgreen;">&emsp; {{ choice }}</strong><br>
+          <strong style="color: lightgreen;">&emsp;{{ choice }}</strong><br><br>
         {% else %}
-          &emsp;{{ choice }}<br>
+          &emsp;{{ choice }}<br><br>
         {% endif %}
       {% endfor %}
-
+    </div>
     <!-- Show button for "Next Question" if quiz is not over -->
     {% if not end %}
         <h3>Score: {{correct}} / {{qs_asked}} = {{percent}}%</h3>
@@ -33,9 +33,9 @@
         </form>
       <br>
       <form action ="/quiz_end">
-        <input type="submit" value="End quiz"/>
+        <input type="submit" value="End quiz" style="text-align: center; display: inline-block;"/>
       </form>
-
+    </div>
     <!-- Otherwise show Final Score and option to "Take quiz again" -->
     {% else %}
       <h3>Final Score: {{correct}} / {{qs_asked}} = {{percent}}%</h3>

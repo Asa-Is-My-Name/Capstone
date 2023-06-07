@@ -3,15 +3,14 @@ import random
 from google.cloud import datastore
 import constants
 from game_images import game_images
-import os
 import time
 
 app = Flask(__name__)
 client = datastore.Client()
 
 # set a secret key (to use for sessions)
-app.secret_key = os.urandom(24)
-
+app.secret_key = "\xf4\xcb\xdfO\xf2\x05$\x8d\x8b\xf5\x19@\xc9\xb4\x94\xeb\x9b\xef'\xfa;\tKQ".encode('utf8')
+app.config['SESSION_PERMANENT'] = True
 
 # This route takes the user to the homepage
 @app.route('/')
@@ -63,7 +62,6 @@ def quiz():
         quiz_score = session.get('quiz_score', 0)
         q_index = session.get('q_index', 0)
         questions_ids = session.get('questions')
-        time.sleep(1)
 
         # Increment question index (incrementing here ensures result page matches question asked)
         q_index += 1
@@ -78,8 +76,7 @@ def quiz():
     if request.method == 'POST':
         quiz_score = session.get('quiz_score', 0)
         q_index = session.get('q_index', 0)
-        questions_ids = session.get('questions', 0) 
-        time.sleep(1)
+        questions_ids = session.get('questions') 
 
         # end var controls which button to show on results page (if quiz is over)
         end = False

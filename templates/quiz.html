@@ -18,7 +18,9 @@
     <form action='/quiz' method='POST'>
       <div style='text-align: left; display: inline-block;'>
         {% for choice in question['choices'] %}
+        <label>
         <p class="choice"><input type="radio" name="options" id='{{choice}}' value='{{choice}}' required/> {{ choice }}</p>
+        </label>
         {% endfor %}
         </div>
       <br>
