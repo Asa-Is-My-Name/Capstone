@@ -12,6 +12,12 @@
       <!-- Show final quiz score and button option to take quiz again -->
       <h2>Quiz Results</h2>
       <h3>Final Score: {{correct}} / {{total_qs}} = {{percent}}%</h3>
+
+      <!-- Show error message if site encountered internal error -->
+      {% if error %}
+        <p style="color: lightgreen;">{{ error }}</p>
+      {% endif % }
+
       <form action ="/study">
         <input type="submit" value="Take the quiz again"/>
       </form>
