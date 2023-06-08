@@ -5,6 +5,7 @@ import constants
 from game_images import game_images
 import time
 
+
 app = Flask(__name__)
 client = datastore.Client()
 
