@@ -197,9 +197,10 @@ footer > p > a {
   /* display: inline-block !important; */
   font-family: Avant Garde,Avantgarde,"Century Gothic";
   font-weight: bold;
+  font-size: large;
   color: rgb(3, 72, 77); 
   background: #c2e1f4;
-  width: 200px;
+  width: 250px;
   padding: 20px;
   text-align: center;
   vertical-align: middle;
@@ -227,6 +228,7 @@ footer > p > a {
 
 .sbtn {
   font-family: Avant Garde,Avantgarde,"Century Gothic";
+  font-size: large;
   color: rgb(13, 40, 67); 
   background: #c2e1f4;
   width: 100px;
@@ -258,6 +260,7 @@ footer > p > a {
 .hbtn {
   /* display: inline-block !important; */
   font-family: Avant Garde,Avantgarde,"Century Gothic";
+  font-size: large;
   color: rgb(13, 40, 67); 
   background: #c2e1f4;
   width: 100px;
