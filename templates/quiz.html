@@ -31,7 +31,7 @@
     <!-- Image hint buttons/images -->
     {% for hint in question['image'] %}
     <button id="btn{{hint}}" onclick="showImage('{{hint}}')" class="hbtn">Show hint</button>
-    <img id="{{hint}}" class="hint_image" src="/static/img/quiz/{{hint}}" alt="Image" width="25%" >
+    <img id="{{hint}}" class="hint_image" src="/static/img/quiz/{{hint}}" alt="Image" width="25%" style="display: none;" >
     {% endfor %}
 
     <!-- function to display image hints -->
@@ -42,6 +42,7 @@
         image.style.display = "flex";
         image.style.margin = "0 auto";
         button.style.display = "none";
+        
       }
     </script>
   </div>
