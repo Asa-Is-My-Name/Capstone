@@ -192,3 +192,96 @@ footer {
 footer > p > a {
   color: aliceblue;
 }
+
+.btn {
+  display: inline-block !important;
+  font-family: Avant Garde,Avantgarde,"Century Gothic";
+  font-weight: bold;
+  color: rgb(3, 72, 77); 
+  background: #c2e1f4;
+  width: 200px;
+  padding: 20px;
+  text-align: center;
+  vertical-align: middle;
+  margin-right: 10px;
+  margin-bottom: 5px;
+  text-decoration: none;
+  text-transform: uppercase;
+  border-radius: 5px;
+  cursor: pointer;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  -webkit-transition-duration: 0.3s;
+  transition-duration: 0.3s;
+  -webkit-transition-property: box-shadow, transform;
+  transition-property: box-shadow, transform;
+
+
+}
+
+.btn:hover, .btn:focus, .btn:active{
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+  -webkit-transform: scale(1.1);
+  transform: scale(1.1);
+  background: rgb(132, 189, 243);
+}
+
+.sbtn {
+  font-family: Avant Garde,Avantgarde,"Century Gothic";
+  color: rgb(13, 40, 67); 
+  background: #c2e1f4;
+  width: 100px;
+  padding: 10px;
+  text-align: center;
+  display: inline-block !important;
+  vertical-align: middle;
+  margin-right: 10px;
+  text-decoration: none;
+  text-transform: uppercase;
+  border-radius: 5px;
+  cursor: pointer;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  -webkit-transition-duration: 0.3s;
+  transition-duration: 0.3s;
+  -webkit-transition-property: box-shadow, transform;
+  transition-property: box-shadow, transform;
+
+
+}
+
+.sbtn:hover, .btn:focus, .btn:active{
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+  -webkit-transform: scale(1.1);
+  transform: scale(1.1);
+  background: rgb(132, 189, 243);
+}
+
+.hbtn {
+  display: inline-block !important;
+  font-family: Avant Garde,Avantgarde,"Century Gothic";
+  color: rgb(13, 40, 67); 
+  background: #c2e1f4;
+  width: 100px;
+  padding: 10px;
+  text-align: center;
+  /* vertical-align: middle; */
+  margin-right: 10px;
+  margin-bottom: 20px;
+  text-decoration: none;
+  text-transform: uppercase;
+  border-radius: 5px;
+  cursor: pointer;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  -webkit-transition-duration: 0.3s;
+  transition-duration: 0.3s;
+  -webkit-transition-property: box-shadow, transform;
+  transition-property: box-shadow, transform;
+
+}
+
+.hbtn:hover, .btn:focus, .btn:active{
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+  -webkit-transform: scale(1.1);
+  transform: scale(1.1);
+  background: rgb(132, 189, 243);
+}
+
