@@ -24,14 +24,14 @@
         {% endfor %}
         </div>
       <br>
-      <input type="submit" value="Submit" style="text-align: center; display: inline-block;"/>
+      <input type="submit" value="Submit" style="text-align: center; display: inline-block;" class="sbtn"/>
     </form>
     <br>
 
     <!-- Image hint buttons/images -->
     {% for hint in question['image'] %}
-    <button id="btn{{hint}}" onclick="showImage('{{hint}}')" class="cbtn">Show hint</button>
-    <img id="{{hint}}" class="hint_image" src="/static/img/quiz/{{hint}}" alt="Image" width="25%" class="cbtn">
+    <button id="btn{{hint}}" onclick="showImage('{{hint}}')" class="hbtn">Show hint</button>
+    <img id="{{hint}}" class="hint_image" src="/static/img/quiz/{{hint}}" alt="Image" width="25%" >
     {% endfor %}
 
     <!-- function to display image hints -->

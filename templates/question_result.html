@@ -29,22 +29,22 @@
         <h3>Score: {{correct}} / {{qs_asked}} = {{percent}}%</h3>
         <p><b>This quiz has a total of {{total_qs}} questions</b></p>
         <form action ="/quiz", method="GET">
-          <input type="submit" value="Next question"/>
+          <input type="submit" value="Next question" class="btn"/>
         </form>
       <br>
       <form action ="/quiz_end">
-        <input type="submit" value="End quiz" style="text-align: center; display: inline-block;"/>
+        <input type="submit" value="End quiz" style="text-align: center; display: inline-block;" class="sbtn"/>
       </form>
     </div>
     <!-- Otherwise show Final Score and option to "Take quiz again" -->
     {% else %}
       <h3>Final Score: {{correct}} / {{qs_asked}} = {{percent}}%</h3>
       <form action ="/study">
-        <input type="submit" value="Take the quiz again"/>
+        <input type="submit" value="Take the quiz again" class="btn"/>
       </form>
       <br>
       <form action ="/">
-          <input type="submit" value="Return to main menu"/>
+          <input type="submit" value="Return to main menu" class="btn"/>
       </form>
     {% endif %}
     <br> 
