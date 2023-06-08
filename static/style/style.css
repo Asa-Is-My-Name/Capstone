@@ -206,7 +206,7 @@ footer > p > a {
   margin-right: 10px;
   margin-bottom: 5px;
   text-decoration: none;
-  text-transform: uppercase;
+  /* text-transform: uppercase; */
   border-radius: 5px;
   cursor: pointer;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
@@ -236,7 +236,7 @@ footer > p > a {
   vertical-align: middle;
   margin-right: 10px;
   text-decoration: none;
-  text-transform: uppercase;
+  /* text-transform: uppercase; */
   border-radius: 5px;
   cursor: pointer;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
@@ -267,7 +267,7 @@ footer > p > a {
   margin-right: 10px;
   margin-bottom: 20px;
   text-decoration: none;
-  text-transform: uppercase;
+  /* text-transform: uppercase; */
   border-radius: 5px;
   cursor: pointer;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
