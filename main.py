@@ -228,7 +228,7 @@ def login():
         return render_template('login.html')
     if request.method == 'POST':
         password = request.form['password']
-        if password != 'jilliani$great':
+        if password != 'thisisnottheactualpassword':
             return redirect(url_for('login'))
         session['admin'] = True
         return redirect(url_for('admin'))
